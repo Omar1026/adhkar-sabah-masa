@@ -5,6 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>حصن المسلم | أذكار الصباح والمساء والنوم والاستيقاظ</title>
 <meta name="description" content="أذكار صحيحة بمصادرها مع مسبحة إلكترونية وبحث ومفضلة وتذكير يومي">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#1d5c4d">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="حصن المسلم">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Amiri+Quran&family=Reem+Kufi:wght@500;600;700&display=swap" rel="stylesheet">
@@ -110,6 +117,7 @@ footer{text-align:center;color:var(--muted);padding:2rem 1rem;border-top:1px sol
       <button class="btn" id="themeAutoBtn" title="ثيم تلقائي حسب الوقت">تلقائي</button>
       <button class="btn" id="soundBtn" title="الصوت">🔊</button>
       <button class="btn" id="resetBtn">↺ تصفير</button>
+      <button class="btn gold" id="installBtn" style="display:none">تثبيت التطبيق</button>
     </div>
   </div>
 </header>
@@ -122,6 +130,7 @@ footer{text-align:center;color:var(--muted);padding:2rem 1rem;border-top:1px sol
 
 <div class="time-hint"><div class="time-box"><span id="timeText">—</span><button class="btn gold" id="goRecommended">انتقال للورد المناسب</button></div></div>
 
+<div id="updateBar" style="display:none;max-width:1100px;margin:.8rem auto 0;padding:0 1rem"><div style="background:var(--card);border:1px solid var(--gold);border-radius:16px;padding:.55rem 1rem;box-shadow:var(--shadow);display:flex;align-items:center;gap:.7rem;flex-wrap:wrap;justify-content:center;font-size:.9rem"><span>يتوفر إصدار جديد من التطبيق</span><button class="btn gold" id="applyUpdate">تحديث الآن</button></div></div>
 <div class="toolbar">
   <div class="search"><span>🔍</span><input id="search" type="search" placeholder="ابحث في الأذكار... مثال: الكرسي، الاستغفار"></div>
   <button class="btn" id="hideDoneBtn">إخفاء المكتملة</button>
@@ -344,6 +353,39 @@ function checkReminder(){
   if(hm==="16:30"){ new Notification("🌙 ورد المساء",{body:"حان وقت أذكار المساء — طمأنينة قلبك"}); localStorage.setItem("adhkar_last_notify",key); }
 }
 setInterval(checkReminder,30000);
+/* تطبيق PWA: تثبيت + تحديث */
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js').then((reg) => {
+    reg.addEventListener('updatefound', () => {
+      const w = reg.installing;
+      w.addEventListener('statechange', () => {
+        if (w.state === 'installed' && navigator.serviceWorker.controller)
+          document.getElementById('updateBar').style.display = '';
+      });
+    });
+  }).catch(() => {});
+  let _rl = false;
+  navigator.serviceWorker.addEventListener('controllerchange', () => {
+    if (!_rl) { _rl = true; location.reload(); }
+  });
+}
+document.getElementById('applyUpdate').onclick = () => {
+  navigator.serviceWorker.getRegistration().then((r) => {
+    if (r && r.waiting) r.waiting.postMessage('SKIP_WAITING');
+    else location.reload();
+  });
+};
+let deferredPrompt = null;
+addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault(); deferredPrompt = e;
+  document.getElementById('installBtn').style.display = '';
+});
+document.getElementById('installBtn').onclick = async () => {
+  if (!deferredPrompt) return;
+  deferredPrompt.prompt(); await deferredPrompt.userChoice;
+  deferredPrompt = null;
+  document.getElementById('installBtn').style.display = 'none';
+};
 load(); updateTimeHint(); render();
 setInterval(()=>{ if(themeAuto) applyAutoTheme(); updateTimeHint(); },60000);
 </script>
