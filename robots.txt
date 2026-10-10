@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://omar1026.github.io/adhkar-sabah-masa/sitemap.xml
