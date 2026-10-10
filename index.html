@@ -52,7 +52,7 @@ html{scroll-behavior:smooth;font-size:var(--font-ui)}
 body{margin:0;font-family:"IBM Plex Sans Arabic",system-ui,Tahoma,sans-serif;background:var(--bg);color:var(--ink);line-height:2;transition:background .3s,color .3s}
 .datestrip{background:var(--acc-dark);color:#fff;text-align:center;padding:.35rem .8rem;font-weight:700;font-size:.88rem;display:flex;align-items:center;justify-content:center;gap:.6rem;flex-wrap:wrap}
 [data-theme="dark"] .datestrip{background:#0a0f16;border-bottom:1px solid var(--border)}
-#clock{font-variant-numeric:tabular-nums;background:#ffffff2e;border-radius:999px;padding:0 .8rem;font-weight:700}
+#clock{font-variant-numeric:tabular-nums;background:#ffffff2e;border-radius:999px;padding:0 .8rem;font-weight:700;min-width:96px;display:inline-block;min-height:1.6em}
 header{position:sticky;top:0;z-index:50;backdrop-filter:blur(14px);background:color-mix(in srgb, var(--bg2) 90%, transparent);border-bottom:1px solid var(--border)}
 .bar{max-width:760px;margin:auto;padding:.6rem .9rem;display:flex;align-items:center;gap:.7rem}
 .app-icon{width:52px;height:52px;border-radius:16px;object-fit:cover;border:1px solid var(--border);box-shadow:var(--shadow);flex-shrink:0}
@@ -154,10 +154,10 @@ footer{text-align:center;color:var(--muted);padding:1.4rem 1rem 2rem;font-size:.
 </style>
 </head>
 <body>
-<div class="datestrip"><span id="dayDate">—</span><span id="clock">--:--:--</span></div>
+<div class="datestrip"><span id="dayDate"></span><span id="clock"></span></div>
 <header>
   <div class="bar">
-    <img class="app-icon" src="icons/app.png" alt="حصين" onerror="this.outerHTML='<div class=&quot;logo-fallback&quot;>حصين</div>'">
+    <img class="app-icon" id="appIcon" src="icons/app.png" alt="حصين">
     <div class="brand"><h1>حصين</h1><p>أذكارك اليومية الصحيحة</p></div>
     <button class="icon-btn" id="themeBtn" title="ليلي / نهاري">🌙</button>
     <button class="icon-btn" id="settingsBtn" title="القائمة">☰</button>
@@ -176,7 +176,7 @@ footer{text-align:center;color:var(--muted);padding:1.4rem 1rem 2rem;font-size:.
 
 <div class="hero">
   <div class="hero-top">
-    <img class="hero-icon" src="icons/app.png" alt="حصين" onerror="this.style.display='none'">
+    <img class="hero-icon" id="heroIcon" src="icons/app.png" alt="حصين">
     <div><h2>حصين</h2><div class="sub">حصنك اليومي من الأذكار الصحيحة</div></div>
   </div>
   <div style="margin-top:.6rem"><span class="badge">﴿ فَاذْكُرُونِي أَذْكُرْكُمْ وَاشْكُرُوا لِي وَلَا تَكْفُرُونِ ﴾ — البقرة 152</span></div>
@@ -224,7 +224,7 @@ footer{text-align:center;color:var(--muted);padding:1.4rem 1rem 2rem;font-size:.
 
 <footer>
   <p>جميع الأذكار من <b>حصن المسلم</b> للقحطاني — المصادر: البخاري، مسلم، أبو داود، الترمذي، النسائي، ابن ماجه، مسند أحمد.</p>
-  <p id="prayerNote">المواقيت تقريبية: الصباح 4:00–12:00 • المساء 12:00–21:00 • النوم بعد 21:00</p>
+  <p id="prayerNote">زر «وردي الآن» ينقلك للورد المناسب لوقتك. أوقات الورد: الصباح من الفجر حتى الظهر، والمساء من الظهر حتى العشاء، والنوم بعد العشاء — وهذه أوقات الورد وليست مواقيت الصلاة (مواقيت مدينتك الدقيقة تُضبط من القائمة ☰).</p>
 </footer>
 
 <script>
@@ -406,7 +406,7 @@ async function fetchPrayer() {
 function updatePrayerNote() {
   const t = getTimes(), el = document.getElementById('prayerNote');
   const place = gpsLoc ? 'موقعك' : CITIES[cityIdx].n;
-  el.textContent = `مواقيت ${place}: الفجر ${t.Fajr} • الظهر ${t.Dhuhr} • العصر ${t.Asr} • المغرب ${t.Maghrib} • العشاء ${t.Isha}`;
+  el.textContent = `الورد حسب مواقيت ${place}: الصباح من الفجر (${t.Fajr}) حتى الظهر (${t.Dhuhr})، والمساء حتى العشاء (${t.Isha}) — وزر «وردي الآن» يختار لك تلقائياً.`;
 }
 /* صوت */
 let AC = null;
@@ -725,6 +725,12 @@ let deferredPrompt = null;
 addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); deferredPrompt = e; document.getElementById('installBtn').style.display = ''; });
 document.getElementById('installBtn').onclick = async () => { if (!deferredPrompt) return; deferredPrompt.prompt(); await deferredPrompt.userChoice; deferredPrompt = null; document.getElementById('installBtn').style.display = 'none'; };
 load(); tickClock(); setInterval(tickClock, 1000); updateTimeHint(); updatePrayerNote(); render(); fetchPrayer();
+/* بديل نصي للأيقونة إن تعذر تحميلها */
+(function () {
+  const a = document.getElementById('appIcon'), h = document.getElementById('heroIcon');
+  if (a) a.addEventListener('error', () => { const d = document.createElement('div'); d.className = 'logo-fallback'; d.textContent = 'حصين'; a.replaceWith(d); });
+  if (h) h.addEventListener('error', () => h.remove());
+})();
 setInterval(() => { if (themeAuto) applyAutoTheme(); updateTimeHint(); }, 60000);
 </script>
 </body>
