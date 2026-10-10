@@ -5,6 +5,19 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>حصين | أذكار الصباح والمساء والنوم</title>
 <meta name="description" content="حصين — أذكار الصباح والمساء والنوم والاستيقاظ والصلاة والأدعية الصحيحة بمصادرها">
+<link rel="canonical" href="https://omar1026.github.io/adhkar-sabah-masa/">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ar_AR">
+<meta property="og:site_name" content="حصين">
+<meta property="og:title" content="حصين | أذكار الصباح والمساء والنوم">
+<meta property="og:description" content="أذكار الصباح والمساء والنوم والاستيقاظ والصلاة والأدعية الصحيحة بمصادرها مع عداد باللمس — يعمل دون إنترنت">
+<meta property="og:url" content="https://omar1026.github.io/adhkar-sabah-masa/">
+<meta property="og:image" content="https://omar1026.github.io/adhkar-sabah-masa/icons/app.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="حصين | أذكار الصباح والمساء والنوم">
+<meta name="twitter:description" content="أذكار صحيحة بمصادرها مع عداد باللمس — يعمل دون إنترنت">
+<meta name="twitter:image" content="https://omar1026.github.io/adhkar-sabah-masa/icons/app.png">
+<script>try{if(top.location!==self.location)top.location=self.location;}catch(e){}</script>
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#2456a0">
 <meta name="mobile-web-app-capable" content="yes">
@@ -171,19 +184,26 @@ footer{text-align:center;color:var(--muted);padding:1.4rem 1rem 2rem;font-size:.
   <div class="time-box"><span id="timeText">—</span><button class="btn" id="goRecommended" style="background:var(--acc);color:#fff;border:none">وردي الآن</button></div>
 </div>
 
-<div class="tiles" id="tiles"></div>
+<div class="tiles" id="tiles">
+  <button class="tile active" data-m="sabahmasa"><span class="ic">🌅</span><b>الصباح والمساء</b><small>وردا اليوم</small></button>
+  <button class="tile" data-m="sleep"><span class="ic">🌌</span><b>أذكار النوم</b><small>قبل النوم</small></button>
+  <button class="tile" data-m="wake"><span class="ic">☀️</span><b>أذكار الاستيقاظ</b><small>عند القيام</small></button>
+  <button class="tile" data-m="salah"><span class="ic">🕌</span><b>أذكار الصلاة</b><small>دبر الصلوات</small></button>
+  <button class="tile" data-m="duas"><span class="ic">🤲</span><b>أدعية مختارة</b><small>من حصن المسلم</small></button>
+  <button class="tile" data-m="others"><span class="ic">🧳</span><b>أذكار أخرى</b><small>سفر وغيرها</small></button>
+</div>
 <div class="subtabs" id="subtabs">
   <button class="subtab" data-sub="morning">☀ الصباح</button>
   <button class="subtab" data-sub="evening">🌙 المساء</button>
 </div>
 
-<div class="search"><div class="search-box"><span>🔍</span><input id="search" type="search" placeholder="ابحث في كل الأذكار..."></div></div>
+<div class="search"><div class="search-box"><span>🔍</span><input id="search" type="search" placeholder="ابحث في كل الأذكار..." aria-label="ابحث في كل الأذكار"></div></div>
 <div class="focus-row"><button class="btn" id="focusBtn" style="border-color:var(--acc);color:var(--acc)">◉ وضع التركيز</button></div>
 
 <div id="updateBar"><div class="update-inner"><span>يتوفر إصدار جديد</span><button class="btn" id="applyUpdate" style="background:var(--acc);color:#fff;border:none">تحديث الآن</button></div></div>
 
 <div class="progress-wrap">
-  <div class="progress-meta"><span id="stText">0 من 0</span><span id="stLeft">متبقي 0</span></div>
+  <div class="progress-meta"><span id="stText">جارٍ تحميل الأذكار...</span><span id="stLeft"></span></div>
   <div class="progress"><i id="bar"></i></div>
 </div>
 
@@ -524,14 +544,7 @@ async function shareImage(i) {
 }
 const TILE_NAMES = { sabahmasa: 'الصباح والمساء', sleep: 'النوم', wake: 'الاستيقاظ', salah: 'الصلاة', duas: 'أدعية مختارة', others: 'أذكار أخرى', fav: 'المفضلة' };
 function renderTiles() {
-  const box = document.getElementById('tiles'); box.innerHTML = '';
-  TILES.forEach((t) => {
-    const b = document.createElement('button');
-    b.className = 'tile' + (mode === t.m ? ' active' : '');
-    b.innerHTML = `<span class="ic">${t.ic}</span><b>${t.t}</b><small>${t.s}</small>`;
-    b.onclick = () => { mode = t.m; query = ''; document.getElementById('search').value = ''; render(); document.getElementById('list').scrollIntoView({ behavior: 'smooth' }); };
-    box.appendChild(b);
-  });
+  document.querySelectorAll('#tiles .tile').forEach(b => b.classList.toggle('active', b.dataset.m === mode));
 }
 function render() {
   renderTiles();
@@ -625,6 +638,8 @@ document.getElementById('focusNext').onclick = () => {
   renderFocus();
 };
 document.addEventListener('click', (e) => {
+  const tl = e.target.closest('#tiles .tile');
+  if (tl) { mode = tl.dataset.m; query = ''; document.getElementById('search').value = ''; render(); document.getElementById('list').scrollIntoView({ behavior: 'smooth' }); return; }
   const f = e.target.closest('[data-fav]');
   if (f) { const k = +f.dataset.fav; favs.has(k) ? favs.delete(k) : favs.add(k); render(); return; }
   const im = e.target.closest('[data-img]');
