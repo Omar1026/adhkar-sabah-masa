@@ -1,6 +1,6 @@
 /* حصن المسلم — Service Worker: عمل دون إنترنت + تحديث سلس */
-const CACHE = 'adhkar-v1';
-const CORE = ['./', 'index.html', 'manifest.json', 'icons/icon-192.png', 'icons/icon-512.png'];
+const CACHE = 'haseen-v2';
+const CORE = ['./', 'index.html', 'manifest.json', 'icons/app.png', 'icons/icon-192.png', 'icons/icon-512.png'];
 
 self.addEventListener('install', (e) => {
   e.waitUntil(caches.open(CACHE).then((c) => c.addAll(CORE)).then(() => self.skipWaiting()));
