@@ -1,5 +1,6 @@
 /* حصن المسلم — Service Worker: عمل دون إنترنت + تحديث سلس */
-const CACHE = 'haseen-v5';
+const CACHE = 'haseen-v6';
+const FONT_CACHE = 'haseen-fonts-v1';
 const CORE = ['./', 'index.html', 'manifest.json', 'icons/app.png', 'icons/icon-192.png', 'icons/icon-512.png'];
 
 self.addEventListener('install', (e) => {
@@ -9,7 +10,7 @@ self.addEventListener('install', (e) => {
 self.addEventListener('activate', (e) => {
   e.waitUntil(
     caches.keys()
-      .then((keys) => Promise.all(keys.filter((k) => k !== CACHE).map((k) => caches.delete(k))))
+      .then((keys) => Promise.all(keys.filter((k) => k !== CACHE && k !== FONT_CACHE).map((k) => caches.delete(k))))
       .then(() => self.clients.claim())
   );
 });
@@ -18,6 +19,23 @@ self.addEventListener('message', (e) => {
   if (e.data === 'SKIP_WAITING') self.skipWaiting();
 });
 
+/* تخزين خطوط Google للعمل دون إنترنت */
+self.addEventListener('fetch', (e) => {
+  const u = new URL(e.request.url);
+  if (e.request.method !== 'GET') return;
+  if (u.origin !== 'https://fonts.googleapis.com' && u.origin !== 'https://fonts.gstatic.com') return;
+  e.respondWith(
+    caches.open(FONT_CACHE).then(async (c) => {
+      const hit = await c.match(e.request);
+      try {
+        const res = await fetch(e.request);
+        if (res.ok) c.put(e.request, res.clone());
+        return res;
+      } catch (err) { return hit; }
+    })
+  );
+});
+/* طلبات الموقع نفسه */
 self.addEventListener('fetch', (e) => {
   const { request } = e;
   if (request.method !== 'GET' || !request.url.startsWith(self.location.origin)) return;

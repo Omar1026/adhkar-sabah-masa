@@ -9,12 +9,17 @@
   "orientation": "portrait",
   "dir": "rtl",
   "lang": "ar",
-  "background_color": "#f7f3ec",
+  "background_color": "#f1f4f6",
   "theme_color": "#2456a0",
   "categories": ["lifestyle", "reference"],
   "icons": [
     { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
     { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png" },
     { "src": "icons/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    { "name": "ورد الصباح", "url": "./#morning", "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }] },
+    { "name": "ورد المساء", "url": "./#evening", "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }] },
+    { "name": "أذكار النوم", "url": "./#sleep", "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }] }
   ]
 }
