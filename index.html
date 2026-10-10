@@ -96,7 +96,6 @@ main{max-width:760px;margin:auto;padding:.9rem .9rem 3rem;display:grid;gap:.9rem
 .card h3{margin:0;font-size:1.02rem;font-weight:700;flex:1;min-width:120px}
 .mini-btn{width:34px;height:34px;border-radius:50%;border:1px solid var(--border);background:var(--bg2);color:var(--muted);cursor:pointer;font-size:.95rem;display:grid;place-items:center;flex-shrink:0;font-family:inherit}
 .mini-btn.on{color:var(--acc);border-color:var(--acc)}
-.mini-btn.speaking{background:var(--acc);color:#fff;border-color:var(--acc)}
 .text{font-size:var(--font-size);font-weight:600;line-height:2.3;margin:.55rem 0}
 .virtue{background:var(--acc-soft);border-radius:12px;padding:.45rem .85rem;font-size:.86rem;font-weight:600;margin:.55rem 0}
 .virtue b{font-weight:700}
@@ -191,7 +190,7 @@ footer{text-align:center;color:var(--muted);padding:1.4rem 1rem 2rem;font-size:.
 <main id="list"></main>
 
 <div id="focusOv">
-  <div class="focus-top"><b id="focusHead">وضع التركيز</b><button class="icon-btn" id="focusSpeak" title="استماع">🔊</button><button class="icon-btn" id="focusClose" title="إغلاق">✕</button></div>
+  <div class="focus-top"><b id="focusHead">وضع التركيز</b><button class="icon-btn" id="focusClose" title="إغلاق">✕</button></div>
   <div class="focus-body" id="focusBody">
     <div class="focus-title" id="focusTitle"></div>
     <div class="focus-text" id="focusText"></div>
@@ -315,7 +314,7 @@ const DATA = [
 const KEY = 'haseen_v3', OLD = 'haseen_v2';
 let mode = 'sabahmasa', sabahSub = 'morning', remaining = {}, favs = new Set(),
     hideDone = false, query = '', soundOn = true, themeAuto = true, remindOn = false, autoNext = true,
-    cityIdx = 0, gpsLoc = null, prayer = null, speakingIdx = -1, focusPos = 0;
+    cityIdx = 0, gpsLoc = null, prayer = null, focusPos = 0;
 function hmToMin(s) { const p = s.split(':'); return (+p[0]) * 60 + (+p[1]); }
 function getTimes() {
   if (prayer && prayer.Fajr) return prayer;
@@ -404,20 +403,6 @@ function beep(f, dur, vol = .1) {
 }
 function playTick() { beep(620, .08); }
 function playDone() { beep(523, .12); setTimeout(() => beep(784, .18), 110); }
-function speak(i) {
-  try {
-    if (speakingIdx === i) { speechSynthesis.cancel(); speakingIdx = -1; }
-    else {
-      speechSynthesis.cancel();
-      const u = new SpeechSynthesisUtterance(DATA[i].t + '. ' + DATA[i].text);
-      u.lang = 'ar-SA'; u.rate = .95;
-      u.onend = () => { speakingIdx = -1; render(); if (document.getElementById('focusOv').classList.contains('open')) renderFocus(); };
-      speakingIdx = i;
-      speechSynthesis.speak(u);
-    }
-  } catch (e) {}
-  render(); if (document.getElementById('focusOv').classList.contains('open')) renderFocus();
-}
 function recommended() {
   const t = getTimes(), now = new Date(), hm = now.getHours() * 60 + now.getMinutes();
   if (hm >= hmToMin(t.Isha) || hm < hmToMin(t.Fajr)) return { mode: 'sleep', sub: 'evening', label: `الآن وقت أذكار النوم — بعد العشاء (${t.Isha})` };
@@ -472,27 +457,66 @@ function shareDhikr(i) {
   if (navigator.share) navigator.share({ title: 'حصين', text: txt }).catch(() => {});
   else if (navigator.clipboard) navigator.clipboard.writeText(txt);
 }
-/* مشاركة بطاقة كصورة */
+/* مشاركة بطاقة كصورة — تصميم ترابي بخط كبير */
 async function shareImage(i) {
-  const d = DATA[i];
-  try { await document.fonts.load('700 44px "IBM Plex Sans Arabic"'); await document.fonts.load('600 40px "IBM Plex Sans Arabic"'); } catch (e) {}
-  const W = 1080, H = 1350, cv = document.createElement('canvas');
+  const d = DATA[i], dark = document.documentElement.getAttribute('data-theme') === 'dark';
+  try {
+    await document.fonts.load('700 72px "IBM Plex Sans Arabic"');
+    await document.fonts.load('700 58px "IBM Plex Sans Arabic"');
+    await document.fonts.load('600 50px "IBM Plex Sans Arabic"');
+  } catch (e) {}
+  const W = 1080, H = 1500, cv = document.createElement('canvas');
   cv.width = W; cv.height = H;
-  const g = cv.getContext('2d'), dark = document.documentElement.getAttribute('data-theme') === 'dark';
-  g.fillStyle = dark ? '#121a24' : '#f8fafb'; g.fillRect(0, 0, W, H);
-  g.strokeStyle = '#2f6fbd'; g.lineWidth = 10; g.strokeRect(30, 30, W - 60, H - 60);
-  g.fillStyle = '#1f4e86'; g.fillRect(30, 30, W - 60, 150);
-  g.fillStyle = '#fff'; g.font = '700 56px "IBM Plex Sans Arabic"'; g.textAlign = 'center'; g.direction = 'rtl';
-  g.fillText('حصين — ' + d.t, W / 2, 130);
-  g.fillStyle = dark ? '#e8eef5' : '#1f2c3d'; g.font = '600 42px "IBM Plex Sans Arabic"';
-  const words = d.text.split(' '); let line = '', y = 280;
-  const lines = [];
-  words.forEach(w => { const t = line ? line + ' ' + w : w; if (g.measureText(t).width > W - 160) { lines.push(line); line = w; } else line = t; });
-  if (line) lines.push(line);
-  lines.slice(0, 18).forEach(l => { g.fillText(l, W / 2, y); y += 68; });
-  g.fillStyle = dark ? '#8fa3b8' : '#64778c'; g.font = '600 34px "IBM Plex Sans Arabic"';
-  g.fillText('المصدر: ' + d.source, W / 2, H - 90);
+  const g = cv.getContext('2d');
+  const C = dark
+    ? { bg: '#1c2420', band: '#0f1a14', ink: '#f2ecdd', mut: '#b9ac90', box: '#26312a', acc: '#7fb0ec', gold: '#d4b566' }
+    : { bg: '#ece4d0', band: '#1d5c4d', ink: '#2c2314', mut: '#7a6c52', box: '#f7f2e4', acc: '#1f4e86', gold: '#a8842f' };
+  g.fillStyle = C.bg; g.fillRect(0, 0, W, H);
+  g.strokeStyle = C.band; g.lineWidth = 16; g.strokeRect(26, 26, W - 52, H - 52);
+  g.strokeStyle = C.gold; g.lineWidth = 4; g.strokeRect(56, 56, W - 112, H - 112);
+  g.fillStyle = C.band; g.fillRect(56, 56, W - 112, 190);
+  g.fillStyle = dark ? '#f2ecdd' : '#ffffff';
+  g.font = '700 72px "IBM Plex Sans Arabic"'; g.textAlign = 'center'; g.direction = 'rtl';
+  g.fillText('حصين', W / 2, 160);
+  g.font = '600 34px "IBM Plex Sans Arabic"'; g.fillStyle = C.gold;
+  g.fillText('أذكار الصباح والمساء والنوم', W / 2, 212);
+  function wrap(txt, maxW, font) {
+    g.font = font;
+    const words = txt.split(' '), lines = [];
+    let line = '';
+    words.forEach(w => {
+      const t = line ? line + ' ' + w : w;
+      if (g.measureText(t).width > maxW) { if (line) lines.push(line); line = w; }
+      else line = t;
+    });
+    if (line) lines.push(line);
+    return lines;
+  }
+  let y = 340;
+  g.fillStyle = C.acc;
+  wrap(d.t, W - 220, '700 58px "IBM Plex Sans Arabic"').slice(0, 2).forEach(l => { g.font = '700 58px "IBM Plex Sans Arabic"'; g.fillText(l, W / 2, y); y += 78; });
+  y += 10;
+  let bodyF = 50, body = wrap(d.text, W - 200, '600 50px "IBM Plex Sans Arabic"');
+  if (body.length > 14) body = wrap(d.text, W - 200, '600 44px "IBM Plex Sans Arabic"'), bodyF = 44;
+  const lh = bodyF + 34;
+  g.fillStyle = C.ink;
+  body.slice(0, 16).forEach(l => { g.font = `600 ${bodyF}px "IBM Plex Sans Arabic"`; g.fillText(l, W / 2, y); y += lh; });
+  y += 14;
+  const vLines = d.virtue ? wrap('الفضل: ' + d.virtue, W - 300, '600 36px "IBM Plex Sans Arabic"').slice(0, 3) : [];
+  if (vLines.length) {
+    const bh = vLines.length * 54 + 40;
+    g.fillStyle = C.box; g.fillRect(110, y - 44, W - 220, bh);
+    g.strokeStyle = C.gold; g.lineWidth = 3; g.strokeRect(110, y - 44, W - 220, bh);
+    g.fillStyle = C.acc;
+    vLines.forEach(l => { g.font = '600 36px "IBM Plex Sans Arabic"'; g.fillText(l, W / 2, y); y += 54; });
+    y += 30;
+  }
+  g.fillStyle = C.mut; g.font = '600 32px "IBM Plex Sans Arabic"';
+  wrap('المصدر: ' + d.source, W - 260, '600 32px "IBM Plex Sans Arabic"').slice(0, 2).forEach(l => { g.fillText(l, W / 2, y); y += 48; });
+  g.fillStyle = C.gold; g.font = '600 30px "IBM Plex Sans Arabic"';
+  g.fillText('تطبيق حصين', W / 2, H - 96);
   cv.toBlob(async (blob) => {
+    if (!blob) return;
     const file = new File([blob], 'haseen.png', { type: 'image/png' });
     if (navigator.canShare && navigator.canShare({ files: [file] })) { try { await navigator.share({ files: [file], title: 'حصين' }); } catch (e) {} }
     else { const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'haseen.png'; a.click(); }
@@ -505,7 +529,7 @@ function renderTiles() {
     const b = document.createElement('button');
     b.className = 'tile' + (mode === t.m ? ' active' : '');
     b.innerHTML = `<span class="ic">${t.ic}</span><b>${t.t}</b><small>${t.s}</small>`;
-    b.onclick = () => { try { speechSynthesis.cancel(); speakingIdx = -1; } catch (e) {} mode = t.m; query = ''; document.getElementById('search').value = ''; render(); document.getElementById('list').scrollIntoView({ behavior: 'smooth' }); };
+    b.onclick = () => { mode = t.m; query = ''; document.getElementById('search').value = ''; render(); document.getElementById('list').scrollIntoView({ behavior: 'smooth' }); };
     box.appendChild(b);
   });
 }
@@ -529,7 +553,6 @@ function render() {
     card.innerHTML = `
       <div class="card-head"><span class="num">${idx + 1}</span><h3>${d.t}</h3>
         <button class="mini-btn ${favs.has(i) ? 'on' : ''}" data-fav="${i}" title="مفضلة">${favs.has(i) ? '★' : '☆'}</button>
-        <button class="mini-btn ${speakingIdx === i ? 'speaking' : ''}" data-speak="${i}" title="استماع">${speakingIdx === i ? '⏹' : '🔊'}</button>
         <button class="mini-btn" data-img="${i}" title="مشاركة صورة">🖼</button>
         <button class="mini-btn" data-share="${i}" title="مشاركة">↗</button>
         <button class="mini-btn" data-copy="${i}" title="نسخ">⧉</button>
@@ -575,7 +598,6 @@ function openFocus() {
 function closeFocus() {
   document.getElementById('focusOv').classList.remove('open');
   document.body.style.overflow = '';
-  try { speechSynthesis.cancel(); speakingIdx = -1; } catch (e) {}
   render();
 }
 function renderFocus() {
@@ -591,11 +613,9 @@ function renderFocus() {
   document.getElementById('focusSrc').textContent = '📚 المصدر: ' + d.source;
   document.getElementById('focusCount').textContent = rem === 0 ? '✓ تم' : rem;
   document.getElementById('focusProg').textContent = `المتبقي ${rem} من ${d.count} — المس النص للتسبيح`;
-  document.getElementById('focusSpeak').textContent = speakingIdx === i ? '⏹' : '🔊';
 }
 document.getElementById('focusBtn').onclick = openFocus;
 document.getElementById('focusClose').onclick = closeFocus;
-document.getElementById('focusSpeak').onclick = (e) => { e.stopPropagation(); const items = filtered(); if (items[focusPos]) speak(items[focusPos].i); };
 document.getElementById('focusBody').onclick = (e) => { if (e.target.closest('button')) return; const items = filtered(); if (items[focusPos]) tap(items[focusPos].i); };
 document.getElementById('focusPrev').onclick = () => { const items = filtered(); focusPos = (focusPos - 1 + items.length) % items.length; renderFocus(); };
 document.getElementById('focusNext').onclick = () => {
@@ -607,8 +627,6 @@ document.getElementById('focusNext').onclick = () => {
 document.addEventListener('click', (e) => {
   const f = e.target.closest('[data-fav]');
   if (f) { const k = +f.dataset.fav; favs.has(k) ? favs.delete(k) : favs.add(k); render(); return; }
-  const sp = e.target.closest('[data-speak]');
-  if (sp) { speak(+sp.dataset.speak); return; }
   const im = e.target.closest('[data-img]');
   if (im) { shareImage(+im.dataset.img); return; }
   const sh = e.target.closest('[data-share]');
