@@ -1,5 +1,5 @@
 /* حصن المسلم — Service Worker: عمل دون إنترنت + تحديث سلس */
-const CACHE = 'haseen-v6';
+const CACHE = 'haseen-v7';
 const FONT_CACHE = 'haseen-fonts-v1';
 const CORE = ['./', 'index.html', 'manifest.json', 'icons/app.png', 'icons/icon-192.png', 'icons/icon-512.png'];
 

@@ -265,6 +265,10 @@ footer{text-align:center;color:var(--muted);padding:1.4rem 1rem 2rem;font-size:.
 <div class="progress-wrap">
   <div class="progress-meta"><span id="stText">جارٍ تحميل الأذكار...</span><span id="stLeft"></span></div>
   <div class="progress" role="progressbar" aria-label="التقدم في الورد"><i id="bar"></i></div>
+  <div style="display:flex;gap:.6rem;justify-content:center;margin-top:.55rem;flex-wrap:wrap">
+    <button class="btn" id="resetViewBtn">تصفير الورد الحالي</button>
+    <button class="btn" id="resetAllBtn2">تصفير الكل</button>
+  </div>
 </div>
 
 <main id="list"></main>
@@ -433,7 +437,7 @@ const KEY = 'haseen_v4', OLD = 'haseen_v3';
 let mode = 'sabahmasa', sabahSub = 'morning', remaining = {}, favs = new Set(),
     hideDone = false, query = '', soundOn = true, themeAuto = true, remindOn = false, autoNext = true,
     cityIdx = 0, gpsLoc = null, prayer = null, tc = 'blue', fontId = 'plex', focusPos = 0,
-    calY = 0, calM = 0;
+    calY = 0, calM = 0, currentDay = '';
 function hmToMin(s) { const p = String(s).split(':'); return (+p[0]) * 60 + (+p[1]); }
 function todayISO(d) { d = d || new Date(); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); }
 function getTimes() {
@@ -441,6 +445,30 @@ function getTimes() {
   return { Fajr: '04:00', Sunrise: '05:30', Dhuhr: '12:00', Asr: '15:30', Maghrib: '18:00', Isha: '21:00' };
 }
 function inSub(d) { return d.cat === sabahSub || d.cat === 'both'; }
+function rk(i) { return DATA[i].cat === 'both' ? (i + '__' + sabahSub) : String(i); }
+function remFor(i, sub) {
+  const d = DATA[i], k = d.cat === 'both' ? (i + '__' + sub) : String(i);
+  return (k in remaining) ? remaining[k] : d.count;
+}
+function remOf(i) { return remFor(i, sabahSub); }
+function ensureKeys() {
+  DATA.forEach((d, i) => {
+    if (d.cat === 'both') {
+      const m = i + '__morning', e = i + '__evening';
+      if (!(m in remaining) || !(e in remaining)) {
+        const old = (String(i) in remaining) ? remaining[String(i)] : d.count;
+        if (!(m in remaining)) remaining[m] = old;
+        if (!(e in remaining)) remaining[e] = old;
+      }
+      if (String(i) in remaining) delete remaining[String(i)];
+    } else {
+      if (!(String(i) in remaining)) {
+        remaining[String(i)] = (i in remaining) ? remaining[i] : d.count;
+        if (String(i) !== String(Number(i))) delete remaining[i];
+      }
+    }
+  });
+}
 function filtered() {
   if (query.trim()) {
     const q = query.trim();
@@ -450,15 +478,46 @@ function filtered() {
   if (mode === 'fav') items = items.filter(({ i }) => favs.has(i));
   else if (mode === 'sabahmasa') items = items.filter(({ d }) => inSub(d));
   else items = items.filter(({ d }) => d.cat === mode);
-  if (hideDone) items = items.filter(({ d, i }) => (remaining[i] ?? d.count) > 0);
+  if (hideDone) items = items.filter(({ d, i }) => remOf(i) > 0);
   return items;
 }
+function resetDailyCounters() {
+  remaining = {};
+  ensureKeys();
+  try {
+    const r = recommended();
+    mode = r.mode; if (r.sub) sabahSub = r.sub;
+  } catch (e) {}
+  currentDay = todayISO();
+}
+function resetCurrentView() {
+  filtered().forEach(({ d, i }) => { remaining[rk(i)] = d.count; });
+  save(); render();
+  if (document.getElementById('focusOv').classList.contains('open')) renderFocus();
+}
+function maybeNewDay() {
+  const t = todayISO();
+  if (t !== currentDay) { resetDailyCounters(); updateTimeHint(); render(); }
+}
 function load() {
+  const today = todayISO(); currentDay = today;
+  let savedDate = '', freshInstall = false;
   try {
     const s = JSON.parse(localStorage.getItem(KEY) || 'null') || JSON.parse(localStorage.getItem(OLD) || 'null') || JSON.parse(localStorage.getItem('adhkar_v3') || '{}');
-    if (s.remaining) remaining = s.remaining;
-    if (s.mode && ['sabahmasa','sleep','wake','salah','duas','others','fav'].includes(s.mode)) mode = s.mode;
-    if (s.sabahSub === 'morning' || s.sabahSub === 'evening') sabahSub = s.sabahSub;
+    savedDate = s.date || '';
+    const isNewDay = savedDate && savedDate !== today;
+    freshInstall = !localStorage.getItem(KEY) && !localStorage.getItem(OLD);
+    if (isNewDay) {
+      remaining = {};
+    } else if (s.remaining) {
+      remaining = s.remaining;
+    }
+    if (isNewDay || freshInstall) {
+      try { const r = recommended(); mode = r.mode; if (r.sub) sabahSub = r.sub; } catch (e) {}
+    } else {
+      if (s.mode && ['sabahmasa','sleep','wake','salah','duas','others','fav'].includes(s.mode)) mode = s.mode;
+      if (s.sabahSub === 'morning' || s.sabahSub === 'evening') sabahSub = s.sabahSub;
+    }
     if (Array.isArray(s.favs)) favs = new Set(s.favs);
     if (typeof s.hideDone === 'boolean') hideDone = s.hideDone;
     if (typeof s.soundOn === 'boolean') soundOn = s.soundOn;
@@ -473,22 +532,23 @@ function load() {
     if (s.fsUi) document.documentElement.style.setProperty('--font-ui', (+s.fsUi) + 'px');
     if (s.theme === 'dark' || s.theme === 'light') document.documentElement.setAttribute('data-theme', s.theme);
   } catch (e) {}
-  DATA.forEach((d, i) => { if (!(i in remaining)) remaining[i] = d.count; });
+  ensureKeys();
   document.documentElement.dataset.tc = tc;
   document.documentElement.dataset.font = fontId;
   if (themeAuto) applyAutoTheme();
   else if (!document.documentElement.getAttribute('data-theme')) document.documentElement.setAttribute('data-theme', 'light');
-  if (!localStorage.getItem(KEY) && !localStorage.getItem(OLD)) { const r = recommended(); mode = r.mode; sabahSub = r.sub; }
   const n = new Date(); calY = n.getFullYear(); calM = n.getMonth();
 }
 function save() {
   const cs = getComputedStyle(document.documentElement);
   localStorage.setItem(KEY, JSON.stringify({
+    date: todayISO(),
     remaining, mode, sabahSub, favs: [...favs], hideDone, soundOn, themeAuto, remindOn, autoNext,
     cityIdx, gpsLoc, tc, fontId, theme: document.documentElement.getAttribute('data-theme') || 'light',
     fsText: parseInt(cs.getPropertyValue('--font-size')) || 19,
     fsUi: parseInt(cs.getPropertyValue('--font-ui')) || 16
   }));
+  currentDay = todayISO();
   recordDay();
 }
 function dayStore() {
@@ -496,7 +556,11 @@ function dayStore() {
 }
 function recordDay() {
   try {
-    const all = dayStore(), done = DATA.filter((d, i) => (remaining[i] ?? d.count) === 0).length;
+    const all = dayStore();
+    const done = DATA.filter((d, i) => {
+      if (d.cat === 'both') return (remaining[i + '__morning'] ?? d.count) === 0 && (remaining[i + '__evening'] ?? d.count) === 0;
+      return (remaining[String(i)] ?? d.count) === 0;
+    }).length;
     all[todayISO()] = { done, total: DATA.length };
     const keys = Object.keys(all).sort();
     while (keys.length > 400) delete all[keys.shift()];
@@ -587,10 +651,12 @@ function updateTimeHint() {
   window._rec = r;
 }
 function tap(i) {
-  if (remaining[i] > 0) {
-    remaining[i]--; playTick();
+  const k = rk(i);
+  const cur = (k in remaining) ? remaining[k] : DATA[i].count;
+  if (cur > 0) {
+    remaining[k] = cur - 1; playTick();
     if (navigator.vibrate) try { navigator.vibrate(15); } catch (_) {}
-    if (remaining[i] === 0) {
+    if (remaining[k] === 0) {
       playDone(); render();
       if (document.getElementById('focusOv').classList.contains('open')) renderFocus();
       if (autoNext) setTimeout(() => goNext(i), 500);
@@ -603,7 +669,7 @@ function tap(i) {
 function goNext(doneIdx) {
   const items = filtered(), pos = items.findIndex(({ i }) => i === doneIdx);
   for (let k = pos + 1; k < items.length; k++) {
-    if ((remaining[items[k].i] ?? items[k].d.count) > 0) {
+    if (remOf(items[k].i) > 0) {
       const el = document.querySelector(`[data-card="${items[k].i}"]`);
       if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
       if (document.getElementById('focusOv').classList.contains('open')) { focusPos = k; renderFocus(); }
@@ -707,16 +773,16 @@ function render() {
     b.classList.toggle('active', b.dataset.sub === sabahSub);
     const sub = b.dataset.sub;
     const tot = DATA.filter(d => d.cat === sub || d.cat === 'both').length;
-    const dn = DATA.filter((d, i) => (d.cat === sub || d.cat === 'both') && (remaining[i] ?? d.count) === 0).length;
+    const dn = DATA.filter((d, i) => (d.cat === sub || d.cat === 'both') && remFor(i, sub) === 0).length;
     b.innerHTML = `${sub === 'morning' ? 'الصباح' : 'المساء'} <span style="font-size:.78em;opacity:.8">${dn}/${tot}</span>`;
   });
   const list = document.getElementById('list'); list.innerHTML = '';
   const items = filtered();
-  const doneShown = items.filter(({ d, i }) => (remaining[i] ?? d.count) === 0).length;
-  const left = items.reduce((a, { d, i }) => a + (remaining[i] ?? d.count), 0);
+  const doneShown = items.filter(({ d, i }) => remOf(i) === 0).length;
+  const left = items.reduce((a, { d, i }) => a + remOf(i), 0);
   const title = query.trim() ? `نتائج البحث (${items.length})` : (TILE_NAMES[mode] || 'الأذكار');
   items.forEach(({ d, i }, idx) => {
-    const rem = remaining[i] ?? d.count;
+    const rem = remOf(i);
     const card = document.createElement('article');
     card.className = 'card' + (rem === 0 ? ' done' : '');
     card.dataset.card = i;
@@ -799,7 +865,7 @@ function renderFocus() {
   const items = filtered();
   if (!items.length) { closeFocusDirect(); return; }
   focusPos = Math.max(0, Math.min(focusPos, items.length - 1));
-  const { d, i } = items[focusPos], rem = remaining[i] ?? d.count;
+  const { d, i } = items[focusPos], rem = remOf(i);
   document.getElementById('focusHead').textContent = `وضع التركيز (${focusPos + 1} من ${items.length})`;
   document.getElementById('focusTitle').textContent = d.t;
   document.getElementById('focusText').textContent = d.text;
@@ -816,7 +882,7 @@ document.getElementById('focusBody').onclick = (e) => { if (e.target.closest('bu
 document.getElementById('focusPrev').onclick = () => { const items = filtered(); focusPos = (focusPos - 1 + items.length) % items.length; renderFocus(); };
 document.getElementById('focusNext').onclick = () => {
   const items = filtered();
-  if (autoNext) { let k = focusPos + 1; while (k < items.length && (remaining[items[k].i] ?? items[k].d.count) === 0) k++; focusPos = k < items.length ? k : (focusPos + 1) % items.length; }
+  if (autoNext) { let k = focusPos + 1; while (k < items.length && remOf(items[k].i) === 0) k++; focusPos = k < items.length ? k : (focusPos + 1) % items.length; }
   else focusPos = (focusPos + 1) % items.length;
   renderFocus();
 };
@@ -942,7 +1008,9 @@ function setThemeManual(dark) {
 document.getElementById('themeBtn').onclick = () => setThemeManual((document.documentElement.getAttribute('data-theme') || 'light') !== 'dark');
 document.getElementById('themeBtn2').onclick = () => setThemeManual((document.documentElement.getAttribute('data-theme') || 'light') !== 'dark');
 document.getElementById('themeAutoBtn').onclick = () => { themeAuto = true; applyAutoTheme(); save(); render(); };
-document.getElementById('resetBtn').onclick = () => { if (!confirm('تصفير كل العدادات؟')) return; DATA.forEach((d, i) => remaining[i] = d.count); render(); };
+document.getElementById('resetBtn').onclick = () => { if (!confirm('تصفير كل العدادات؟')) return; remaining = {}; ensureKeys(); render(); };
+document.getElementById('resetViewBtn').onclick = () => { if (!confirm('تصفير عدادات الورد المعروض حالياً؟')) return; resetCurrentView(); };
+document.getElementById('resetAllBtn2').onclick = () => { if (!confirm('تصفير كل العدادات؟')) return; remaining = {}; ensureKeys(); render(); };
 document.getElementById('remindBtn').onclick = async () => {
   if (!remindOn) {
     if ('Notification' in window) { const p = await Notification.requestPermission(); if (p !== 'granted') { alert('فعّل إذن الإشعارات من المتصفح أولاً.'); return; } }
@@ -1028,7 +1096,7 @@ load(); tickClock(); setInterval(tickClock, 1000); updateTimeHint(); renderPraye
   else if (h === 'evening') { mode = 'sabahmasa'; sabahSub = 'evening'; render(); }
   else if (h === 'sleep') { mode = 'sleep'; render(); }
 })();
-setInterval(() => { if (themeAuto) applyAutoTheme(); updateTimeHint(); }, 60000);
+setInterval(() => { if (themeAuto) applyAutoTheme(); maybeNewDay(); updateTimeHint(); }, 60000);
 </script>
 </body>
 </html>
