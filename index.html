@@ -56,12 +56,20 @@ p,h1,h2,h3{overflow-wrap:break-word}
 .svg{width:1.3em;height:1.3em;vertical-align:-.28em}
 .datestrip{background:var(--acc-dark);color:#fff;text-align:center;padding:.35rem .8rem;font-weight:700;font-size:.88rem}
 [data-theme="dark"] .datestrip{background:#0a0f16;border-bottom:1px solid var(--border)}
-.prayer-bar{max-width:760px;margin:.55rem auto 0;padding:0 .9rem;display:flex;gap:.45rem;overflow-x:auto;scrollbar-width:thin}
-.pchip{flex-shrink:0;background:var(--card);border:1px solid var(--border);border-radius:999px;padding:.15rem .8rem;font-size:.78rem;font-weight:700;color:var(--muted);white-space:nowrap}
-.pchip b{font-variant-numeric:tabular-nums}
-.pchip.clock{background:var(--acc-dark);color:#fff;border-color:var(--acc-dark)}
-.pchip.next{border:2px solid var(--acc);color:var(--acc-dark)}
-[data-theme="dark"] .pchip.next{color:var(--acc)}
+.prayer-card{max-width:760px;margin:.6rem auto 0;padding:0 .9rem}
+.prayer-inner{background:var(--card);border:1px solid var(--border);border-radius:18px;box-shadow:var(--shadow);padding:.7rem .9rem}
+.pc-head{display:flex;align-items:center;gap:.7rem;flex-wrap:wrap;margin-bottom:.55rem}
+.pc-head .tt{flex:1;min-width:150px}
+.pc-head .tt b{display:block;font-size:.95rem;font-weight:700}
+.pc-head .tt span{font-size:.75rem;color:var(--muted);font-weight:600}
+.pc-clock{font-size:2rem;font-weight:700;color:var(--acc);font-variant-numeric:tabular-nums;line-height:1.2;background:var(--acc-soft);border-radius:14px;padding:.1rem .9rem}
+.pc-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:.45rem}
+.pcell{border:1px solid var(--border);border-radius:12px;padding:.3rem .2rem;text-align:center;min-width:0}
+.pcell span{display:block;font-size:.7rem;font-weight:700;color:var(--muted)}
+.pcell b{display:block;font-size:.95rem;font-weight:700;font-variant-numeric:tabular-nums}
+.pcell.next{background:var(--acc);border-color:var(--acc)}
+.pcell.next span,.pcell.next b{color:#fff}
+@media(max-width:560px){.pc-grid{grid-template-columns:repeat(3,1fr)}.pc-clock{font-size:1.6rem}}
 header{position:sticky;top:0;z-index:50;backdrop-filter:blur(14px);background:color-mix(in srgb, var(--bg2) 90%, transparent);border-bottom:1px solid var(--border)}
 .bar{max-width:760px;margin:auto;padding:.6rem .9rem;display:flex;align-items:center;gap:.7rem}
 .app-icon{width:52px;height:52px;border-radius:16px;object-fit:cover;border:1px solid var(--border);box-shadow:var(--shadow);flex-shrink:0}
@@ -221,7 +229,10 @@ footer{text-align:center;color:var(--muted);padding:1.4rem 1rem 2rem;font-size:.
   </div></div></div>
 </header>
 
-<div class="prayer-bar" id="prayerBar"></div>
+<div class="prayer-card"><div class="prayer-inner">
+  <div class="pc-head"><div class="tt"><b id="pcCity">مواقيت الصلاة</b><span id="pcDate"></span></div><div class="pc-clock" id="clockIn">--:--</div></div>
+  <div class="pc-grid" id="prayerBar"></div>
+</div></div>
 
 <div class="hero">
   <div class="hero-top">
@@ -518,13 +529,16 @@ function nextPrayer() {
   return 'الفجر';
 }
 function renderPrayerBar() {
-  const t = getTimes(), bar = document.getElementById('prayerBar');
+  const t = getTimes();
   const nx = nextPrayer(); lastNext = nx;
-  const chips = [['الفجر', t.Fajr], ['الشروق', t.Sunrise], ['الظهر', t.Dhuhr], ['العصر', t.Asr], ['المغرب', t.Maghrib], ['العشاء', t.Isha]];
-  bar.innerHTML = `<span class="pchip clock"><b id="clockIn">--:--</b></span>` +
-    chips.map(([n, v]) => `<span class="pchip${n === nx ? ' next' : ''}">${n} <b>${v}</b></span>`).join('');
+  const cells = [['الفجر', t.Fajr], ['الشروق', t.Sunrise], ['الظهر', t.Dhuhr], ['العصر', t.Asr], ['المغرب', t.Maghrib], ['العشاء', t.Isha]];
+  document.getElementById('prayerBar').innerHTML =
+    cells.map(([n, v]) => `<div class="pcell${n === nx ? ' next' : ''}"><span>${n}${n === nx ? ' • القادمة' : ''}</span><b>${v}</b></div>`).join('');
   tickClockText();
   const place = gpsLoc ? 'موقعك' : (CITIES[cityIdx] || CITIES[0]).n;
+  document.getElementById('pcCity').textContent = 'مواقيت الصلاة — ' + place;
+  const n = new Date();
+  try { document.getElementById('pcDate').textContent = new Intl.DateTimeFormat('ar', { weekday: 'long', day: 'numeric', month: 'long' }).format(n); } catch (e) {}
   document.getElementById('prayerNote').textContent = `الورد حسب مواقيت ${place}: الصباح من الفجر (${t.Fajr}) حتى الظهر (${t.Dhuhr})، والمساء حتى العشاء (${t.Isha}) — وزر «وردي الآن» يختار لك تلقائياً.`;
 }
 /* صوت التنبيه */
@@ -689,7 +703,13 @@ function syncChrome() {
 function render() {
   renderTiles();
   document.getElementById('subtabs').classList.toggle('show', mode === 'sabahmasa' && !query.trim());
-  document.querySelectorAll('.subtab').forEach(b => b.classList.toggle('active', b.dataset.sub === sabahSub));
+  document.querySelectorAll('.subtab').forEach(b => {
+    b.classList.toggle('active', b.dataset.sub === sabahSub);
+    const sub = b.dataset.sub;
+    const tot = DATA.filter(d => d.cat === sub || d.cat === 'both').length;
+    const dn = DATA.filter((d, i) => (d.cat === sub || d.cat === 'both') && (remaining[i] ?? d.count) === 0).length;
+    b.innerHTML = `${sub === 'morning' ? 'الصباح' : 'المساء'} <span style="font-size:.78em;opacity:.8">${dn}/${tot}</span>`;
+  });
   const list = document.getElementById('list'); list.innerHTML = '';
   const items = filtered();
   const doneShown = items.filter(({ d, i }) => (remaining[i] ?? d.count) === 0).length;
@@ -861,7 +881,14 @@ document.addEventListener('click', (e) => {
   const ff = e.target.closest('[data-font]');
   if (ff) { cycleFont(); return; }
   const st = e.target.closest('.subtab');
-  if (st) { sabahSub = st.dataset.sub; render(); return; }
+  if (st) {
+    sabahSub = st.dataset.sub;
+    query = ''; document.getElementById('search').value = '';
+    if (mode !== 'sabahmasa') mode = 'sabahmasa';
+    render();
+    document.getElementById('list').scrollIntoView({ behavior: 'smooth' });
+    return;
+  }
 });
 function cycleFont() {
   const k = FONTS.findIndex(f => f.id === fontId);
