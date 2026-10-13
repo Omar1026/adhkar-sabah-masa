@@ -812,7 +812,7 @@ function render() {
           <button class="mini-btn" data-copy="${i}" title="نسخ" aria-label="نسخ الذكر">${I.copy}</button>
         </div>
         <div class="acts-group">
-          <button class="mini-btn" data-font="${i}" title="تغيير الخط" aria-label="تغيير الخط">خط</button>
+          <button class="mini-btn" data-cfont="${i}" title="تغيير الخط" aria-label="تغيير الخط">خط</button>
           <button class="mini-btn" data-fminus title="تصغير الخط" aria-label="تصغير الخط">أ−</button>
           <button class="mini-btn" data-fplus title="تكبير الخط" aria-label="تكبير الخط">أ+</button>
         </div>
@@ -944,7 +944,7 @@ document.addEventListener('click', (e) => {
   if (fp) { changeFontVar('--font-size', 1, 15, 32); return; }
   const fm = e.target.closest('[data-fminus]');
   if (fm) { changeFontVar('--font-size', -1, 15, 32); return; }
-  const ff = e.target.closest('[data-font]');
+  const ff = e.target.closest('[data-cfont]');
   if (ff) { cycleFont(); return; }
   const st = e.target.closest('.subtab');
   if (st) {
