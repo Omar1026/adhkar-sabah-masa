@@ -54,14 +54,13 @@ body{margin:0;font-family:var(--font-main);background:var(--bg);color:var(--ink)
 img,canvas,svg{max-width:100%}
 p,h1,h2,h3{overflow-wrap:break-word}
 .svg{width:1.3em;height:1.3em;vertical-align:-.28em}
-.datestrip{background:var(--acc-dark);color:#fff;text-align:center;padding:.35rem .8rem;font-weight:700;font-size:.88rem}
-[data-theme="dark"] .datestrip{background:#0a0f16;border-bottom:1px solid var(--border)}
 .prayer-card{max-width:760px;margin:.6rem auto 0;padding:0 .9rem}
 .prayer-inner{background:var(--card);border:1px solid var(--border);border-radius:18px;box-shadow:var(--shadow);padding:.7rem .9rem}
 .pc-head{display:flex;align-items:center;gap:.7rem;flex-wrap:wrap;margin-bottom:.55rem}
 .pc-head .tt{flex:1;min-width:150px}
-.pc-head .tt b{display:block;font-size:.95rem;font-weight:700}
-.pc-head .tt span{font-size:.75rem;color:var(--muted);font-weight:600}
+.pc-head .tt>b{display:block;font-size:.95rem;font-weight:700}
+.pc-dates{display:block;font-size:.85rem;font-weight:800;line-height:1.9}
+.pc-dates .sep{color:var(--muted);font-weight:600;margin:0 .3rem}
 .pc-clock{font-size:2rem;font-weight:700;color:var(--acc);font-variant-numeric:tabular-nums;line-height:1.2;background:var(--acc-soft);border-radius:14px;padding:.1rem .9rem}
 .pc-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:.45rem}
 .pcell{border:1px solid var(--border);border-radius:12px;padding:.3rem .2rem;text-align:center;min-width:0}
@@ -70,13 +69,6 @@ p,h1,h2,h3{overflow-wrap:break-word}
 .pcell.next{background:var(--acc);border-color:var(--acc)}
 .pcell.next span,.pcell.next b{color:#fff}
 @media(max-width:560px){.pc-grid{grid-template-columns:repeat(3,1fr)}.pc-clock{font-size:1.6rem}}
-header{position:sticky;top:0;z-index:50;backdrop-filter:blur(14px);background:color-mix(in srgb, var(--bg2) 90%, transparent);border-bottom:1px solid var(--border)}
-.bar{max-width:760px;margin:auto;padding:.6rem .9rem;display:flex;align-items:center;gap:.7rem}
-.app-icon{width:52px;height:52px;border-radius:16px;object-fit:cover;border:1px solid var(--border);box-shadow:var(--shadow);flex-shrink:0}
-.logo-fallback{width:52px;height:52px;border-radius:16px;display:grid;place-items:center;background:var(--acc-dark);color:#fff;font-weight:700;flex-shrink:0}
-.brand{margin-inline-end:auto;min-width:0}
-.brand h1{margin:0;font-size:1.4rem;font-weight:700;line-height:1.4}
-.brand p{margin:0;font-size:.8rem;color:var(--muted);font-weight:600}
 .icon-btn{width:44px;height:44px;border-radius:14px;border:1px solid var(--border);background:var(--card);color:var(--ink);font-size:1.2rem;font-weight:700;cursor:pointer;font-family:inherit;display:grid;place-items:center;flex-shrink:0}
 .settings{max-width:760px;margin:auto;padding:0 .9rem}
 .settings-panel{overflow:hidden;max-height:0;transition:max-height .3s ease}
@@ -92,16 +84,19 @@ header{position:sticky;top:0;z-index:50;backdrop-filter:blur(14px);background:co
 .btn.active{background:var(--acc);color:#fff;border-color:var(--acc)}
 .swatch{width:40px;height:40px;border-radius:50%;border:3px solid transparent;cursor:pointer;flex-shrink:0}
 .swatch.active{border-color:var(--ink)}
-.hero{max-width:760px;margin:auto;padding:1.2rem .9rem .3rem;text-align:center}
-.hero-top{display:flex;align-items:center;justify-content:center;gap:.9rem;flex-wrap:wrap}
-.hero-icon{width:92px;height:92px;border-radius:28px;object-fit:cover;border:2px solid var(--border);box-shadow:var(--shadow)}
-.hero h2{margin:0;font-size:2.2rem;font-weight:700;line-height:1.5}
-.hero .sub{color:var(--muted);font-weight:600;font-size:1rem;margin:.1rem 0 .6rem}
-.badge{display:inline-block;background:var(--acc-soft);color:var(--acc-dark);border:1px solid var(--border);padding:.25rem 1.1rem;border-radius:999px;font-size:.9rem;font-weight:700}
-[data-theme="dark"] .badge{color:var(--acc)}
-.slogan{font-size:clamp(1.4rem,5vw,2rem);font-weight:700;margin:.7rem 0 .2rem;line-height:1.8}
-.slogan span{color:var(--acc)}
-.time-box{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:.55rem 1rem;box-shadow:var(--shadow);display:flex;align-items:center;gap:.7rem;flex-wrap:wrap;justify-content:center;font-size:.88rem;font-weight:700;margin-top:.7rem}
+.masthead{background:linear-gradient(160deg,var(--acc-dark),var(--acc));color:#fff;border-radius:0 0 28px 28px;padding:.9rem .9rem 1.2rem;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.masthead::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 85% 12%,rgba(255,255,255,.28),transparent 45%),radial-gradient(circle at 8% 95%,rgba(255,255,255,.14),transparent 42%);pointer-events:none}
+[data-theme="dark"] .masthead{background:linear-gradient(160deg,color-mix(in srgb,var(--acc) 55%,#0b1119),#0b1119)}
+.mh-top{max-width:760px;margin:auto;display:flex;align-items:center;gap:.7rem;position:relative}
+.mh-icon{width:56px;height:56px;border-radius:18px;object-fit:cover;border:2px solid rgba(255,255,255,.55);flex-shrink:0}
+.mh-btns{margin-inline-start:auto;display:flex;gap:.5rem}
+.mh-btn{width:44px;height:44px;border-radius:14px;border:1.5px solid rgba(255,255,255,.55);background:rgba(255,255,255,.16);color:#fff;font-size:1.2rem;font-weight:700;cursor:pointer;font-family:inherit;display:grid;place-items:center;flex-shrink:0}
+.mh-title{max-width:760px;margin:.3rem auto 0;font-size:3.1rem;font-weight:800;line-height:1.5;text-align:center;position:relative}
+.mh-sub{max-width:760px;margin:0 auto;text-align:center;font-weight:600;opacity:.92;position:relative}
+.mh-verse{max-width:760px;margin:.55rem auto 0;text-align:center;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.4);padding:.35rem 1.1rem;border-radius:999px;font-weight:700;font-size:.92rem;position:relative}
+.mh-slogan{max-width:760px;margin:.5rem auto 0;text-align:center;font-size:clamp(1.25rem,5vw,1.7rem);font-weight:800;position:relative}
+.mh-time{max-width:760px;margin:.65rem auto 0;display:flex;align-items:center;gap:.7rem;flex-wrap:wrap;justify-content:center;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.32);border-radius:16px;padding:.55rem 1rem;font-size:.88rem;font-weight:700;position:relative}
+.mh-go{border:none;background:#fff;color:#16202c;border-radius:999px;padding:.42rem 1.2rem;cursor:pointer;font-family:inherit;font-weight:800;font-size:.88rem}
 .tiles{max-width:760px;margin:.8rem auto 0;padding:0 .9rem;display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem}
 .tile{background:var(--tile);color:var(--tile-ink);border:2px solid transparent;border-radius:18px;padding:.8rem .4rem;cursor:pointer;font-family:inherit;text-align:center;box-shadow:var(--shadow);transition:.2s;min-width:0}
 .tile .ic{display:block;line-height:1.2;margin-bottom:.15rem}
@@ -189,24 +184,29 @@ main{max-width:760px;margin:auto;padding:.9rem .9rem 3rem;display:grid;gap:.9rem
 .cal-stat span{font-size:.75rem;color:var(--muted);font-weight:700}
 footer{text-align:center;color:var(--muted);padding:1.4rem 1rem 2rem;font-size:.8rem;font-weight:600;line-height:2}
 @media(max-width:480px){
-  .brand h1{font-size:1.25rem}
+  .mh-title{font-size:2.5rem}
   .text{line-height:2.15}
   .tile b{font-size:.8rem}
-  .hero-icon{width:76px;height:76px}
   .set-row .lbl{min-width:90px}
 }
 </style>
 </head>
 <body>
-<div class="datestrip"><span id="dayDate"></span></div>
-<header>
-  <div class="bar">
-    <img class="app-icon" id="appIcon" src="icons/app.png" alt="حصين">
-    <div class="brand"><h1>حصين</h1><p>أذكارك اليومية الصحيحة</p></div>
-    <button class="icon-btn" id="themeBtn" title="ليلي / نهاري" aria-label="تبديل ليلي نهاري"></button>
-    <button class="icon-btn" id="settingsBtn" title="القائمة" aria-label="فتح القائمة">☰</button>
+<div class="masthead">
+  <div class="mh-top">
+    <img class="mh-icon" id="appIcon" src="icons/app.png" alt="حصين">
+    <div class="mh-btns">
+      <button class="mh-btn" id="themeBtn" title="ليلي / نهاري" aria-label="تبديل ليلي نهاري"></button>
+      <button class="mh-btn" id="settingsBtn" title="القائمة" aria-label="فتح القائمة">☰</button>
+    </div>
   </div>
-  <div class="settings"><div class="settings-panel" id="settingsPanel"><div class="settings-box">
+  <h1 class="mh-title">حصين</h1>
+  <p class="mh-sub">حصنك اليومي من الأذكار الصحيحة</p>
+  <div class="mh-verse">﴿ فَاذْكُرُونِي أَذْكُرْكُمْ وَاشْكُرُوا لِي وَلَا تَكْفُرُونِ ﴾ — البقرة 152</div>
+  <div class="mh-slogan">صباحُك حصنٌ .. ومساؤك طمأنينة</div>
+  <div class="mh-time"><span id="timeText">—</span><button class="mh-go" id="goRecommended">وردي الآن</button></div>
+</div>
+<div class="settings"><div class="settings-panel" id="settingsPanel"><div class="settings-box">
     <div class="set-sec"><h4>المظهر والألوان</h4>
       <div class="set-row"><button class="btn" id="themeBtn2">ليلي / نهاري</button><button class="btn" id="themeAutoBtn">تلقائي</button></div>
       <div class="set-row" id="themeRow"></div>
@@ -227,22 +227,11 @@ footer{text-align:center;color:var(--muted);padding:1.4rem 1rem 2rem;font-size:.
       <div class="set-row"><button class="btn" id="favBtn">المفضلة</button><button class="btn" id="calBtn">التقويم والإنجاز</button><button class="btn" id="resetBtn">تصفير الكل</button><button class="btn" id="installBtn" style="display:none">تثبيت التطبيق</button></div>
     </div>
   </div></div></div>
-</header>
 
 <div class="prayer-card"><div class="prayer-inner">
-  <div class="pc-head"><div class="tt"><b id="pcCity">مواقيت الصلاة</b><span id="pcDate"></span></div><div class="pc-clock" id="clockIn">--:--</div></div>
+  <div class="pc-head"><div class="tt"><b id="pcCity">مواقيت الصلاة</b><span class="pc-dates"><b id="pcGreg"></b><span class="sep">•</span><b id="pcHijri"></b></span></div><div class="pc-clock" id="clockIn">--:--</div></div>
   <div class="pc-grid" id="prayerBar"></div>
 </div></div>
-
-<div class="hero">
-  <div class="hero-top">
-    <img class="hero-icon" id="heroIcon" src="icons/app.png" alt="حصين">
-    <div><h2>حصين</h2><div class="sub">حصنك اليومي من الأذكار الصحيحة</div></div>
-  </div>
-  <div style="margin-top:.6rem"><span class="badge">﴿ فَاذْكُرُونِي أَذْكُرْكُمْ وَاشْكُرُوا لِي وَلَا تَكْفُرُونِ ﴾ — البقرة 152</span></div>
-  <div class="slogan">صباحُك <span>حصنٌ</span> .. ومساؤك <span>طمأنينة</span></div>
-  <div class="time-box"><span id="timeText">—</span><button class="btn" id="goRecommended" style="background:var(--acc);color:#fff;border:none">وردي الآن</button></div>
-</div>
 
 <div class="tiles" id="tiles">
   <button class="tile active" data-m="sabahmasa"><span class="ic" data-ic="sunrise"></span><b>الصباح والمساء</b><small>وردا اليوم</small></button>
@@ -601,8 +590,6 @@ function renderPrayerBar() {
   tickClockText();
   const place = gpsLoc ? 'موقعك' : (CITIES[cityIdx] || CITIES[0]).n;
   document.getElementById('pcCity').textContent = 'مواقيت الصلاة — ' + place;
-  const n = new Date();
-  try { document.getElementById('pcDate').textContent = new Intl.DateTimeFormat('ar', { weekday: 'long', day: 'numeric', month: 'long' }).format(n); } catch (e) {}
   document.getElementById('prayerNote').textContent = `الورد حسب مواقيت ${place}: الصباح من الفجر (${t.Fajr}) حتى الظهر (${t.Dhuhr})، والمساء حتى العشاء (${t.Isha}) — وزر «وردي الآن» يختار لك تلقائياً.`;
 }
 /* صوت التنبيه */
@@ -640,7 +627,8 @@ function tickClock() {
   let hijri = '', greg = '';
   try { hijri = new Intl.DateTimeFormat('ar-SA-u-ca-islamic-umalqura', { day: 'numeric', month: 'long', year: 'numeric' }).format(n); } catch (e) {}
   try { greg = new Intl.DateTimeFormat('ar', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }).format(n); } catch (e) {}
-  document.getElementById('dayDate').textContent = greg + (hijri ? ' • ' + hijri + ' هـ' : '');
+  document.getElementById('pcGreg').textContent = greg;
+  document.getElementById('pcHijri').textContent = hijri ? hijri + ' هـ' : '';
   tickClockText();
   const nx = nextPrayer();
   if (nx !== lastNext) renderPrayerBar();
