@@ -1083,7 +1083,7 @@ function viewKidsList(group) {
   if (!k) return go('#/kids');
   const v = document.getElementById('view');
   v.innerHTML = `
-    <div class="page-head"><button class="back-btn" data-go="#/kids">رجوع</button><div class="ph-ic">${KI[k.ic] || ''}</div><b>${k.n}<small>${k.sub}</small></b></div>
+    <div class="page-head"><button class="back-btn" data-go="#/kids">رجوع</button><div class="ph-ic">${KI[k.ic] || ''}</div><b>${k.n}<small>${k.sub}</small></b><button class="back-btn no-print" data-act="print" title="طباعة أو حفظ كملف PDF" aria-label="طباعة أو حفظ PDF">PDF</button></div>
     <div class="kid-hero"><div class="kh-art">${KI[k.ic] || ''}</div><div><b>${k.n}</b><small>اضغط على أي ذكر لتتعلمه وتسبّح به</small></div></div>
     <div class="list-drop">${k.items.map((it, i) => {
       const rem = kidRem(group, i, it);
@@ -1182,7 +1182,7 @@ function viewSection(cat) {
   const doneShown = items.filter(({ d, i }) => remOf(i) === 0).length;
   const left = items.reduce((a, { d, i }) => a + remOf(i), 0);
   v.innerHTML = `
-    <div class="page-head"><button class="back-btn" data-go="#/">رجوع</button><div class="ph-ic">${I[TILE_ICONS[cat]] || ''}</div><b>${TILE_NAMES[cat] || 'الأذكار'}<small>${cat === 'sabahmasa' ? (sabahSub === 'morning' ? 'ورد الصباح' : 'ورد المساء') : 'اضغط على أي بطاقة للتسبيح'}</small></b></div>
+    <div class="page-head"><button class="back-btn" data-go="#/">رجوع</button><div class="ph-ic">${I[TILE_ICONS[cat]] || ''}</div><b>${TILE_NAMES[cat] || 'الأذكار'}<small>${cat === 'sabahmasa' ? (sabahSub === 'morning' ? 'ورد الصباح' : 'ورد المساء') : 'اضغط على أي بطاقة للتسبيح'}</small></b><button class="back-btn no-print" data-act="print" title="طباعة أو حفظ كملف PDF" aria-label="طباعة أو حفظ PDF">PDF</button></div>
     ${subtabs}
     ${searchBoxHTML('')}
     <div class="focus-row"><button class="btn" data-act="focus" style="border-color:var(--acc);color:var(--acc)">وضع التركيز</button></div>
@@ -1214,7 +1214,7 @@ function viewFav() {
   const doneShown = items.filter(({ d, i }) => remOf(i) === 0).length;
   const left = items.reduce((a, { d, i }) => a + remOf(i), 0);
   v.innerHTML = `
-    <div class="page-head"><button class="back-btn" data-go="#/">رجوع</button><div class="ph-ic">${I.star}</div><b>المفضلة<small>أذكارك المحفوظة</small></b></div>
+    <div class="page-head"><button class="back-btn" data-go="#/">رجوع</button><div class="ph-ic">${I.star}</div><b>المفضلة<small>أذكارك المحفوظة</small></b><button class="back-btn no-print" data-act="print" title="طباعة أو حفظ كملف PDF" aria-label="طباعة أو حفظ PDF">PDF</button></div>
     ${progHTML('المفضلة', doneShown, items.length, left)}
     <main id="list"></main>`;
   const list = document.getElementById('list');
@@ -1387,6 +1387,7 @@ document.addEventListener('click', (e) => {
     else if (a === 'duaPrev') { duaPage = Math.max(1, duaPage - 1); viewDuas(); }
     else if (a === 'duaNext') { duaPage = Math.min(DUAS_PAGES || 1, duaPage + 1); viewDuas(); }
     else if (a === 'duaPrint') printDua();
+    else if (a === 'print') window.print();
     return;
   }
   const f = e.target.closest('[data-fav]');
