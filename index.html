@@ -97,7 +97,7 @@ p,h1,h2,h3{overflow-wrap:break-word}
 .mh-slogan{max-width:760px;margin:.5rem auto 0;text-align:center;font-size:clamp(1.25rem,5vw,1.7rem);font-weight:800;position:relative}
 .mh-time{max-width:760px;margin:.65rem auto 0;display:flex;align-items:center;gap:.7rem;flex-wrap:wrap;justify-content:center;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.32);border-radius:16px;padding:.55rem 1rem;font-size:.88rem;font-weight:700;position:relative}
 .mh-go{border:none;background:#fff;color:#16202c;border-radius:999px;padding:.42rem 1.2rem;cursor:pointer;font-family:inherit;font-weight:800;font-size:.88rem}
-.tiles{max-width:760px;margin:.8rem auto 0;padding:0 .9rem;display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem}
+.tiles{max-width:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem}
 .tile{background:var(--tile);color:var(--tile-ink);border:2px solid transparent;border-radius:18px;padding:.8rem .4rem;cursor:pointer;font-family:inherit;text-align:center;box-shadow:var(--shadow);transition:.2s;min-width:0}
 .tile .ic{display:block;line-height:1.2;margin-bottom:.15rem}
 .tile .ic .svg{width:1.9em;height:1.9em}
@@ -105,20 +105,21 @@ p,h1,h2,h3{overflow-wrap:break-word}
 .tile small{font-size:.7rem;font-weight:600;opacity:.75;display:block}
 .tile.active{border-color:var(--acc);background:var(--acc-soft);color:var(--acc-dark)}
 [data-theme="dark"] .tile.active{color:var(--acc)}
-.subtabs{max-width:760px;margin:.7rem auto 0;padding:0 .9rem;display:none;gap:.6rem}
+.subtabs{max-width:none;margin:0;padding:0;display:none;gap:.6rem}
 .subtabs.show{display:flex}
 .subtab{flex:1;border:2px solid var(--border);background:var(--card);color:var(--ink);border-radius:16px;padding:.6rem;cursor:pointer;font-family:inherit;font-weight:700;font-size:1rem;min-width:0}
 .subtab.active{border-color:var(--acc);background:var(--acc-soft);color:var(--acc-dark)}
 [data-theme="dark"] .subtab.active{color:var(--acc)}
-.search{max-width:760px;margin:.7rem auto 0;padding:0 .9rem}
+.search{margin:0;padding:0;max-width:none}
 .search-box{display:flex;align-items:center;gap:.5rem;background:var(--card);border:1px solid var(--border);border-radius:999px;padding:.5rem 1.1rem;box-shadow:var(--shadow)}
 .search-box input{flex:1;min-width:0;border:none;background:transparent;color:var(--ink);font-family:inherit;font-weight:600;font-size:.95rem;outline:none}
-.focus-row{max-width:760px;margin:.6rem auto 0;padding:0 .9rem;display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap}
-.progress-wrap{max-width:760px;margin:.7rem auto 0;padding:0 .9rem}
+.focus-row{margin:.1rem 0 0;padding:0;max-width:none;display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap}
+.progress-wrap{margin:.25rem 0 0;padding:0}
 .progress-meta{display:flex;justify-content:space-between;font-size:.84rem;color:var(--muted);font-weight:700;margin-bottom:.3rem}
 .progress{height:10px;background:var(--card);border:1px solid var(--border);border-radius:999px;overflow:hidden}
 .progress i{display:block;height:100%;width:0;background:var(--acc);transition:width .4s}
 main{max-width:760px;margin:auto;padding:.9rem .9rem 3rem;display:grid;gap:.9rem;min-width:0}
+main#list{max-width:none;margin:0;padding:0}
 .card{background:var(--card);border:2px solid var(--border);border-radius:var(--radius);padding:1.1rem 1.1rem .9rem;box-shadow:var(--shadow);cursor:pointer;transition:transform .1s,background .25s,border-color .25s;user-select:none;min-width:0}
 .card:active{transform:scale(.995)}
 .card.done{background:var(--done-bg);border-color:var(--done-border)}
@@ -183,11 +184,98 @@ main{max-width:760px;margin:auto;padding:.9rem .9rem 3rem;display:grid;gap:.9rem
 .cal-stat b{display:block;font-size:1.2rem;color:var(--acc)}
 .cal-stat span{font-size:.75rem;color:var(--muted);font-weight:700}
 footer{text-align:center;color:var(--muted);padding:1.4rem 1rem 2rem;font-size:.8rem;font-weight:600;line-height:2}
+
+/* ===== التنقل متعدد الصفحات ===== */
+#view{max-width:760px;margin:auto;padding:.9rem .9rem 3rem;display:grid;gap:.9rem;min-width:0}
+.page-head{background:var(--card);border:1px solid var(--border);border-radius:18px;box-shadow:var(--shadow);padding:.6rem .7rem;display:flex;align-items:center;gap:.6rem}
+.page-head .ph-ic{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;background:var(--acc-soft);color:var(--acc);flex-shrink:0;font-size:1.4rem}
+.page-head .ph-ic .svg{width:1.6em;height:1.6em}
+.page-head b{flex:1;min-width:0;font-size:1.15rem;font-weight:700;line-height:1.5}
+.page-head small{display:block;font-size:.75rem;color:var(--muted);font-weight:600}
+.back-btn{min-width:44px;height:44px;border-radius:14px;border:1px solid var(--border);background:var(--bg2);color:var(--ink);cursor:pointer;font-family:inherit;font-weight:700;font-size:1rem;display:inline-grid;place-items:center;padding:0 .7rem}
+.list-drop{background:var(--card);border:1px solid var(--border);border-radius:18px;box-shadow:var(--shadow);overflow:hidden}
+.drop-item{width:100%;text-align:right;background:var(--card);border:none;border-top:1px dashed var(--border);padding:.85rem .9rem;cursor:pointer;font-family:inherit;font-weight:700;font-size:.98rem;color:var(--ink);display:flex;align-items:center;gap:.6rem}
+.drop-item:first-child{border-top:none}
+.drop-item:hover,.drop-item:active{background:var(--acc-soft)}
+.drop-item .di-ic{color:var(--acc);flex-shrink:0;display:grid;place-items:center}
+.drop-item span.dn{flex:1;min-width:0;line-height:1.7}
+.drop-item i{color:var(--muted);font-style:normal;flex-shrink:0}
+.drop-item.done{color:var(--muted)}
+
+/* ===== ركن الأطفال ===== */
+.kids-window{position:relative;border-radius:26px;padding:1.1rem 1rem 1.2rem;overflow:hidden;
+  background:linear-gradient(150deg,#ffd66b 0%,#ff9ad5 45%,#8ad7ff 100%);box-shadow:0 12px 30px rgba(255,154,213,.35)}
+.kids-window::before{content:"";position:absolute;inset:0;background:
+  radial-gradient(circle at 12% 18%,rgba(255,255,255,.55) 0 6px,transparent 7px),
+  radial-gradient(circle at 84% 12%,rgba(255,255,255,.5) 0 8px,transparent 9px),
+  radial-gradient(circle at 25% 85%,rgba(255,255,255,.45) 0 5px,transparent 6px),
+  radial-gradient(circle at 72% 78%,rgba(255,255,255,.4) 0 7px,transparent 8px),
+  radial-gradient(circle at 50% 50%,rgba(255,255,255,.25) 0 30%,transparent 60%);pointer-events:none}
+.kids-window>*{position:relative}
+.kw-head{text-align:center;margin-bottom:.8rem}
+.kw-head h2{margin:0;font-size:1.9rem;font-weight:800;color:#5b2a6b;text-shadow:0 2px 0 rgba(255,255,255,.6)}
+.kw-head p{margin:.15rem 0 0;font-weight:700;color:#7a3f8c;font-size:.9rem}
+.kids-cards{display:grid;gap:.75rem}
+.kids-card{display:flex;align-items:center;gap:.75rem;background:#fff;border:none;border-radius:20px;padding:.8rem .9rem;cursor:pointer;font-family:inherit;text-align:right;box-shadow:0 6px 0 rgba(0,0,0,.12);transition:transform .12s,box-shadow .12s;min-width:0}
+.kids-card:active{transform:translateY(3px);box-shadow:0 3px 0 rgba(0,0,0,.12)}
+.kc-art{width:88px;height:88px;border-radius:20px;display:grid;place-items:center;flex-shrink:0}
+.kc-art svg{width:100%;height:100%}
+.kc-txt{flex:1;min-width:0}
+.kc-txt b{display:block;font-size:1.45rem;font-weight:800;color:#3a1f4d;line-height:1.5}
+.kc-txt small{display:block;font-size:.8rem;font-weight:700;color:#7a5a8c}
+.kc-prog{margin-top:.3rem;height:8px;border-radius:999px;background:#f0e2f6;overflow:hidden}
+.kc-prog i{display:block;height:100%;width:0;background:linear-gradient(90deg,#ff8ac2,#ffb347);transition:width .4s}
+.kids-card .kc-go{width:38px;height:38px;border-radius:12px;background:#f7ecfb;color:#8a4aa8;display:grid;place-items:center;flex-shrink:0;font-size:1.1rem;font-weight:800}
+.kid-page{--kidc:#ff8ac2}
+.kid-hero{border-radius:20px;padding:.9rem 1rem;display:flex;align-items:center;gap:.7rem;color:#3a1f4d;background:linear-gradient(140deg,#fff2c9,#ffd9ee)}
+.kid-hero .kh-art{width:74px;height:74px;border-radius:18px;background:#fff;display:grid;place-items:center;flex-shrink:0;box-shadow:0 4px 10px rgba(0,0,0,.1)}
+.kid-hero .kh-art svg{width:100%;height:100%}
+.kid-hero b{font-size:1.3rem;font-weight:800;line-height:1.5}
+.kid-hero small{display:block;font-size:.8rem;font-weight:700;opacity:.8}
+.kid-page .card{border-width:2px}
+.kid-page .card.done{border-color:#3fb984;background:#e9fbf2}
+.kid-page .num{background:#ff8ac2}
+.kid-page .big-count{color:#e0559b}
+.kid-page .dot{border-color:#ff8ac2}
+.kid-page .dot.on{background:#ff8ac2}
+.reward{background:#fff;border-radius:18px;padding:.8rem .9rem;box-shadow:0 6px 0 rgba(0,0,0,.1);text-align:center}
+.reward b{display:block;font-size:1.05rem;font-weight:800;color:#5b2a6b}
+.rw-stars{display:flex;justify-content:center;gap:.3rem;flex-wrap:wrap;margin:.4rem 0}
+.rw-star{width:34px;height:34px;color:#e0e0e0}
+.rw-star svg{width:100%;height:100%;display:block}
+.rw-star.on{color:#ffc531;filter:drop-shadow(0 2px 3px rgba(255,197,49,.55))}
+.rw-msg{font-weight:800;color:#2f9e6e;font-size:.95rem}
+#partyOv{position:fixed;inset:0;z-index:95;display:none;place-items:center;background:rgba(30,10,40,.55);backdrop-filter:blur(4px)}
+#partyOv.open{display:grid}
+.party-box{background:linear-gradient(150deg,#fff8e1,#ffe9f7);border-radius:26px;padding:1.6rem 1.4rem;text-align:center;max-width:340px;width:88%;box-shadow:0 20px 50px rgba(0,0,0,.4);animation:pop .45s cubic-bezier(.2,1.6,.4,1)}
+@keyframes pop{from{transform:scale(.5);opacity:0}to{transform:scale(1);opacity:1}}
+.party-box .p-art{width:110px;height:110px;margin:0 auto .4rem}
+.party-box h3{margin:.2rem 0;font-size:1.7rem;font-weight:800;color:#5b2a6b}
+.party-box p{margin:.2rem 0 .9rem;font-weight:700;color:#7a3f8c;line-height:1.9}
+.confetti{position:absolute;top:-20px;width:11px;height:16px;border-radius:2px;animation:fall linear forwards}
+@keyframes fall{to{transform:translateY(110vh) rotate(720deg);opacity:.9}}
+
+/* ===== صفحة الأدعية (صور) ===== */
+.pdf-page{background:var(--card);border:1px solid var(--border);border-radius:16px;box-shadow:var(--shadow);overflow:hidden}
+.pdf-page img{display:block;width:100%;height:auto}
+.pdf-nav{display:flex;align-items:center;justify-content:center;gap:.6rem;flex-wrap:wrap}
+.pdf-nav b{font-weight:800;color:var(--acc);min-width:120px;text-align:center}
+@media print{
+  header,.masthead,.prayer-card,.tiles,.settings,#installBanner,#focusOv,#calOv,.search,.focus-row,#updateBar,.progress-wrap,.back-btn,.page-head .ph-ic,.no-print{display:none!important}
+  body{background:#fff}
+  #view{padding:0;max-width:none;gap:.4rem}
+  .page-head{box-shadow:none;border:1px solid #ccc}
+  .card{break-inside:avoid;box-shadow:none;border:1px solid #999}
+  .pdf-page img{max-height:96vh;object-fit:contain}
+}
 @media(max-width:480px){
   .mh-title{font-size:2.5rem}
   .text{line-height:2.15}
   .tile b{font-size:.8rem}
   .set-row .lbl{min-width:90px}
+  .kc-art{width:70px;height:70px}
+  .kc-txt b{font-size:1.25rem}
+  .kids-window{border-radius:20px}
 }
 </style>
 </head>
@@ -233,34 +321,9 @@ footer{text-align:center;color:var(--muted);padding:1.4rem 1rem 2rem;font-size:.
   <div class="pc-grid" id="prayerBar"></div>
 </div></div>
 
-<div class="tiles" id="tiles">
-  <button class="tile active" data-m="sabahmasa"><span class="ic" data-ic="sunrise"></span><b>الصباح والمساء</b><small>وردا اليوم</small></button>
-  <button class="tile" data-m="sleep"><span class="ic" data-ic="moon"></span><b>أذكار النوم</b><small>قبل النوم</small></button>
-  <button class="tile" data-m="wake"><span class="ic" data-ic="sun"></span><b>أذكار الاستيقاظ</b><small>عند القيام</small></button>
-  <button class="tile" data-m="salah"><span class="ic" data-ic="cube"></span><b>أذكار الصلاة</b><small>دبر الصلوات</small></button>
-  <button class="tile" data-m="duas"><span class="ic" data-ic="book"></span><b>أدعية مختارة</b><small>من حصن المسلم</small></button>
-  <button class="tile" data-m="others"><span class="ic" data-ic="case"></span><b>أذكار أخرى</b><small>سفر وغيرها</small></button>
-</div>
-<div class="subtabs" id="subtabs">
-  <button class="subtab" data-sub="morning">الصباح</button>
-  <button class="subtab" data-sub="evening">المساء</button>
-</div>
-
-<div class="search"><div class="search-box"><span id="searchIc"></span><input id="search" type="search" placeholder="ابحث في كل الأذكار..." aria-label="ابحث في كل الأذكار"></div></div>
-<div class="focus-row"><button class="btn" id="focusBtn" style="border-color:var(--acc);color:var(--acc)">وضع التركيز</button><button class="btn" id="calBtn2" style="border-color:var(--acc);color:var(--acc)">التقويم والإنجاز</button></div>
-
 <div id="updateBar"><div class="update-inner"><span>يتوفر إصدار جديد</span><button class="btn" id="applyUpdate" style="background:var(--acc);color:#fff;border:none">تحديث الآن</button></div></div>
 
-<div class="progress-wrap">
-  <div class="progress-meta"><span id="stText">جارٍ تحميل الأذكار...</span><span id="stLeft"></span></div>
-  <div class="progress" role="progressbar" aria-label="التقدم في الورد"><i id="bar"></i></div>
-  <div style="display:flex;gap:.6rem;justify-content:center;margin-top:.55rem;flex-wrap:wrap">
-    <button class="btn" id="resetViewBtn">تصفير الورد الحالي</button>
-    <button class="btn" id="resetAllBtn2">تصفير الكل</button>
-  </div>
-</div>
-
-<main id="list"></main>
+<main id="view"></main>
 
 <div id="installBanner">
   <img src="icons/icon-192.png" alt="حصين">
@@ -291,6 +354,15 @@ footer{text-align:center;color:var(--muted);padding:1.4rem 1rem 2rem;font-size:.
   </div>
 </div>
 
+<div id="partyOv" role="dialog" aria-modal="true" aria-label="احتفال بالإنجاز">
+  <div class="party-box">
+    <div class="p-art" id="partyArt"></div>
+    <h3 id="partyTitle">أحسنت!</h3>
+    <p id="partyMsg"></p>
+    <button class="btn" id="partyClose" style="background:var(--acc);color:#fff;border:none;justify-content:center;padding:.6rem 1.6rem;font-size:1rem">رائع!</button>
+  </div>
+</div>
+
 <footer>
   <p>جميع الأذكار من <b>حصن المسلم</b> للقحطاني — المصادر: البخاري، مسلم، أبو داود، الترمذي، النسائي، ابن ماجه، مسند أحمد. <a href="privacy.html" style="color:var(--acc);font-weight:700">سياسة الخصوصية</a></p>
   <p id="prayerNote">زر «وردي الآن» ينقلك للورد المناسب لوقتك.</p>
@@ -312,6 +384,98 @@ const I = {
   vol: P('<path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/>'),
   volx: P('<path d="M11 5 6 9H3v6h3l5 4z"/><path d="M22 9l-6 6M16 9l6 6"/>'),
   search: P('<circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/>')
+};
+/* ===== أيقونات كرتونية لركن الأطفال (ملوّنة) ===== */
+const svgWrap = (inner) => `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">${inner}</svg>`;
+const KI = {
+  kSleep: svgWrap(`<circle cx="50" cy="50" r="44" fill="#ffe9a8"/>
+    <path d="M74 30a24 24 0 1 1-26 40 19 19 0 1 0 26-40z" fill="#ffd166" stroke="#e0a83c" stroke-width="2"/>
+    <path d="M38 46q4 4 8 0M56 46q4 4 8 0" stroke="#8a5a1f" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <path d="M46 62q5 5 10 0" stroke="#8a5a1f" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <circle cx="34" cy="55" r="5" fill="#ffb3c1" opacity=".75"/><circle cx="70" cy="55" r="5" fill="#ffb3c1" opacity=".75"/>
+    <text x="72" y="26" font-size="15" font-weight="700" fill="#7b4fb8" font-family="Tajawal,sans-serif">z</text>
+    <text x="80" y="18" font-size="11" font-weight="700" fill="#9b7fd4" font-family="Tajawal,sans-serif">z</text>`),
+  kWake: svgWrap(`<circle cx="50" cy="50" r="44" fill="#fff0c2"/>
+    <circle cx="50" cy="52" r="26" fill="#ffb703"/>
+    <g stroke="#ff9f1c" stroke-width="5" stroke-linecap="round">
+      <path d="M50 14v8M50 82v8M12 52h8M80 52h8M23 25l6 6M71 73l6 6M23 79l6-6M71 31l6-6"/></g>
+    <circle cx="42" cy="48" r="4" fill="#5a3a10"/><circle cx="58" cy="48" r="4" fill="#5a3a10"/>
+    <path d="M40 60q10 10 20 0" stroke="#5a3a10" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+    <circle cx="33" cy="57" r="4.5" fill="#ff7b9c" opacity=".6"/><circle cx="67" cy="57" r="4.5" fill="#ff7b9c" opacity=".6"/>`),
+  kSun: svgWrap(`<circle cx="50" cy="52" r="28" fill="#ffd166" stroke="#e0a83c" stroke-width="2"/>
+    <g stroke="#ff9f1c" stroke-width="6" stroke-linecap="round">
+      <path d="M50 8v12M50 84v12M8 52h12M80 52h12M20 22l9 9M71 73l9 9M20 82l9-9M71 31l9-9"/></g>
+    <path d="M38 47q3-5 8 0M54 47q3-5 8 0" stroke="#7a4a12" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+    <path d="M40 62q10 11 20 0z" fill="#c9452f"/>
+    <circle cx="32" cy="58" r="5" fill="#ff8fa3" opacity=".7"/><circle cx="68" cy="58" r="5" fill="#ff8fa3" opacity=".7"/>`),
+  kMoon: svgWrap(`<circle cx="50" cy="50" r="44" fill="#1f2a5c"/>
+    <circle cx="40" cy="48" r="26" fill="#ffe08a"/>
+    <circle cx="32" cy="40" r="4" fill="#e8c96a"/><circle cx="46" cy="60" r="5" fill="#e8c96a"/>
+    <path d="M30 46q3-4 7 0M43 46q3-4 7 0" stroke="#8a6a1f" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <path d="M36 58q6 5 12 0" stroke="#8a6a1f" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <g fill="#fff"><circle cx="76" cy="24" r="3"/><circle cx="86" cy="42" r="2"/><circle cx="70" cy="62" r="2.5"/><circle cx="82" cy="72" r="2"/></g>`),
+  kBed: svgWrap(`<rect x="8" y="52" width="84" height="30" rx="6" fill="#8ecae6"/>
+    <rect x="8" y="46" width="20" height="16" rx="5" fill="#ffb703"/>
+    <rect x="24" y="58" width="60" height="14" rx="4" fill="#fff"/>
+    <circle cx="36" cy="50" r="9" fill="#ffd6a5"/><path d="M30 48q3-3 6 0" stroke="#8a5a1f" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <path d="M6 82v6M94 82v6" stroke="#468faf" stroke-width="6" stroke-linecap="round"/>
+    <text x="70" y="32" font-size="14" font-weight="700" fill="#5e60ce" font-family="Tajawal,sans-serif">z</text>`),
+  kStar: svgWrap(`<circle cx="50" cy="50" r="44" fill="#fff3b0"/>
+    <path d="M50 18l9 19 21 3-15 15 4 21-19-10-19 10 4-21-15-15 21-3z" fill="#ffd166" stroke="#e0a83c" stroke-width="2" stroke-linejoin="round"/>
+    <circle cx="44" cy="46" r="3" fill="#6b4a12"/><circle cx="56" cy="46" r="3" fill="#6b4a12"/>
+    <path d="M44 56q6 6 12 0" stroke="#6b4a12" stroke-width="2.5" fill="none" stroke-linecap="round"/>`),
+  kHeart: svgWrap(`<circle cx="50" cy="50" r="44" fill="#ffd6e7"/>
+    <path d="M50 80C22 62 18 46 26 36c7-9 18-6 24 2 6-8 17-11 24-2 8 10 4 26-24 44z" fill="#ff5d8f" stroke="#e0356f" stroke-width="2" stroke-linejoin="round"/>
+    <circle cx="42" cy="46" r="3" fill="#fff"/><circle cx="58" cy="46" r="3" fill="#fff"/>`),
+  kHi: svgWrap(`<circle cx="50" cy="50" r="44" fill="#cdeffd"/>
+    <circle cx="50" cy="42" r="18" fill="#ffd6a5"/>
+    <path d="M42 40q3-4 7 0M51 40q3-4 7 0" stroke="#8a5a1f" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <path d="M44 50q6 5 12 0" stroke="#8a5a1f" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <path d="M28 82c2-14 12-20 22-20s20 6 22 20z" fill="#4895ef"/>
+    <path d="M20 44q-8-8-4-16" stroke="#ffd6a5" stroke-width="9" fill="none" stroke-linecap="round"/>`),
+  kPlate: svgWrap(`<circle cx="50" cy="50" r="44" fill="#e6f7e6"/>
+    <ellipse cx="50" cy="56" rx="34" ry="22" fill="#fff" stroke="#94a3b8" stroke-width="2"/>
+    <ellipse cx="50" cy="54" rx="22" ry="14" fill="#ffe8a3"/>
+    <path d="M42 50q4-5 8 0t8 0" stroke="#c98a1a" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <path d="M76 26v18M84 26v18" stroke="#94a3b8" stroke-width="3.5" stroke-linecap="round"/>`),
+  kShirt: svgWrap(`<circle cx="50" cy="50" r="44" fill="#e0e7ff"/>
+    <path d="M34 26l16 8 16-8 16 12-8 12-6-4v32H32V46l-6 4-8-12z" fill="#7c9cff" stroke="#4a6cf7" stroke-width="2" stroke-linejoin="round"/>
+    <path d="M42 30q8 8 16 0" fill="#fff" opacity=".85"/>`),
+  kHug: svgWrap(`<circle cx="50" cy="50" r="44" fill="#ffe0ec"/>
+    <circle cx="34" cy="40" r="12" fill="#ffd6a5"/><circle cx="66" cy="40" r="12" fill="#ffcaa0"/>
+    <path d="M18 82c1-16 8-22 16-22s15 6 16 22z" fill="#ff8fab"/>
+    <path d="M50 82c1-16 8-22 16-22s15 6 16 22z" fill="#f472b6"/>
+    <path d="M40 40q10 12 20 0" stroke="#e0356f" stroke-width="3" fill="none" stroke-linecap="round"/>`),
+  kTree: svgWrap(`<circle cx="50" cy="50" r="44" fill="#dcfce7"/>
+    <rect x="44" y="60" width="12" height="22" rx="3" fill="#a16207"/>
+    <circle cx="50" cy="44" r="24" fill="#4ade80"/><circle cx="34" cy="52" r="14" fill="#22c55e"/><circle cx="66" cy="52" r="14" fill="#22c55e"/>
+    <circle cx="42" cy="42" r="3.5" fill="#064e3b"/><circle cx="58" cy="42" r="3.5" fill="#064e3b"/>
+    <path d="M44 52q6 5 12 0" stroke="#064e3b" stroke-width="2.5" fill="none" stroke-linecap="round"/>`),
+  kHand: svgWrap(`<circle cx="50" cy="50" r="44" fill="#fef3c7"/>
+    <path d="M40 78V44a6 6 0 0 1 12 0v22" fill="#ffd6a5" stroke="#d99a5b" stroke-width="2"/>
+    <path d="M52 66V38a6 6 0 0 1 12 0v30" fill="#ffd6a5" stroke="#d99a5b" stroke-width="2"/>
+    <path d="M64 68V46a5 5 0 0 1 10 0v24c0 12-8 18-20 18s-20-6-20-16" fill="#ffd6a5" stroke="#d99a5b" stroke-width="2"/>`),
+  kMosque: svgWrap(`<circle cx="50" cy="50" r="44" fill="#e0f2fe"/>
+    <rect x="22" y="56" width="56" height="26" rx="4" fill="#fff"/>
+    <path d="M50 22c14 6 20 16 20 24H30c0-8 6-18 20-24z" fill="#38bdf8" stroke="#0284c7" stroke-width="2"/>
+    <path d="M50 12v10" stroke="#0284c7" stroke-width="3" stroke-linecap="round"/><circle cx="50" cy="12" r="4" fill="#fbbf24"/>
+    <path d="M42 82V68q8-8 16 0v14z" fill="#7dd3fc"/>`),
+  kLoud: svgWrap(`<circle cx="50" cy="50" r="44" fill="#ede9fe"/>
+    <path d="M30 42h12l16-14v44L42 58H30z" fill="#a78bfa" stroke="#7c3aed" stroke-width="2" stroke-linejoin="round"/>
+    <path d="M68 38q8 12 0 24M76 30q14 20 0 40" stroke="#7c3aed" stroke-width="3.5" fill="none" stroke-linecap="round"/>`),
+  kDrop: svgWrap(`<circle cx="50" cy="50" r="44" fill="#cffafe"/>
+    <path d="M50 20c12 16 20 26 20 36a20 20 0 1 1-40 0c0-10 8-20 20-36z" fill="#22d3ee" stroke="#0891b2" stroke-width="2"/>
+    <ellipse cx="42" cy="58" rx="5" ry="8" fill="#fff" opacity=".6" transform="rotate(-20 42 58)"/>`),
+  kSujud: svgWrap(`<circle cx="50" cy="50" r="44" fill="#fef9c3"/>
+    <path d="M14 74h72" stroke="#a16207" stroke-width="5" stroke-linecap="round"/>
+    <path d="M24 74c0-12 10-18 22-18h10c10 0 18 4 22 18z" fill="#34d399" stroke="#059669" stroke-width="2"/>
+    <circle cx="30" cy="60" r="9" fill="#ffd6a5"/>`),
+  kPray: svgWrap(`<circle cx="50" cy="50" r="44" fill="#fce7f3"/>
+    <path d="M42 78V50l-6-22a4 4 0 0 1 8-2l4 16 4-16a4 4 0 0 1 8 2l-6 22v28z" fill="#f9a8d4" stroke="#db2777" stroke-width="2" stroke-linejoin="round"/>
+    <circle cx="50" cy="30" r="8" fill="#fde68a" stroke="#f59e0b" stroke-width="2"/>`),
+  kMoonStar: svgWrap(`<circle cx="50" cy="50" r="44" fill="#312e81"/>
+    <path d="M62 26a22 22 0 1 1-24 36 17 17 0 1 0 24-36z" fill="#fde68a"/>
+    <path d="M74 24l3 7 7 3-7 3-3 7-3-7-7-3 7-3z" fill="#fff"/>`)
 };
 const THEMES = [
   { id: 'blue', n: 'أزرق', c: '#2f6fbd' },
@@ -422,6 +586,42 @@ const DATA = [
 {t:"عيادة المريض",cat:"others",count:7,text:"أَسْأَلُ اللَّهَ الْعَظِيمَ، رَبَّ الْعَرْشِ الْعَظِيمِ، أَنْ يَشْفِيَكَ.",virtue:"من عاد مريضاً فقالها سبعاً شفاه الله إن لم يحضر أجله.",source:"أبو داود 3106 والترمذي وحسنه الألباني"},
 {t:"تشميت العاطس",cat:"others",count:1,text:"إِذَا عَطَسَ أَحَدُكُمْ فَحَمِدَ اللَّهَ فَشَمِّتُوهُ: يَرْحَمُكَ اللَّهُ، فيقول: يَهْدِيكُمُ اللَّهُ وَيُصْلِحُ بَالَكُمْ.",source:"البخاري 6224"}
 ];
+/* ===== ركن الأطفال: بيانات الأذكار والآداب والسنن ===== */
+const KIDS = {
+  adhkar: {
+    n: 'الأذكار', sub: 'الاستيقاظ والصباح والمساء والنوم', ic: 'kSleep',
+    items: [
+      { t: 'ذكر الاستيقاظ', count: 1, ic: 'kWake', text: 'الْحَمْدُ لِلَّهِ الَّذِي أَحْيَانَا بَعْدَ مَا أَمَاتَنَا وَإِلَيْهِ النُّشُورُ.', virtue: 'الحمد لله بعد الاستيقاظ من النوم.', source: 'رواه البخاري 6325' },
+      { t: 'ذكر الصباح', count: 1, ic: 'kSun', text: 'اللَّهُمَّ بِكَ أَصْبَحْنَا، وَبِكَ أَمْسَيْنَا، وَبِكَ نَحْيَا، وَبِكَ نَمُوتُ، وَإِلَيْكَ النُّشُورُ.', virtue: 'نحمد الله في الصباح والمساء.', source: 'رواه الترمذي 3391 وصححه الألباني' },
+      { t: 'ذكر المساء', count: 1, ic: 'kMoon', text: 'اللَّهُمَّ بِكَ أَمْسَيْنَا، وَبِكَ أَصْبَحْنَا، وَبِكَ نَحْيَا، وَبِكَ نَمُوتُ، وَإِلَيْكَ الْمَصِيرُ.', virtue: 'نحمد الله في المساء.', source: 'رواه الترمذي 3391 وصححه الألباني' },
+      { t: 'قبل النوم', count: 1, ic: 'kBed', text: 'بِاسْمِكَ رَبِّي وَضَعْتُ جَنْبِي، وَبِكَ أَرْفَعُهُ، فَإِنْ أَمْسَكْتَ نَفْسِي فَارْحَمْهَا، وَإِنْ أَرْسَلْتَهَا فَاحْفَظْهَا بِمَا تَحْفَظُ بِهِ عِبَادَكَ الصَّالِحِينَ.', virtue: 'دعاء لمن نام على فراشه.', source: 'رواه البخاري 6320 ومسلم 2714' },
+      { t: 'التسبيح قبل النوم', count: 1, ic: 'kStar', text: 'سُبْحَانَ اللَّهِ 33، وَالْحَمْدُ لِلَّهِ 33، وَاللَّهُ أَكْبَرُ 34.', virtue: 'خير لكما من خادم.', source: 'رواه البخاري 5362 ومسلم 2727' }
+    ]
+  },
+  adab: {
+    n: 'الآداب', sub: 'السلام والأكل والشرب واللباس وبر الوالدين', ic: 'kHeart',
+    items: [
+      { t: 'السلام', count: 1, ic: 'kHi', text: 'السَّلَامُ عَلَيْكُمْ وَرَحْمَةُ اللَّهِ وَبَرَكَاتُهُ.', virtue: 'يبدأ المسلم بالسلام، وهي صدقة.', source: 'رواه البخاري 13، ومسلم 216' },
+      { t: 'قبل الأكل والشرب', count: 1, ic: 'kPlate', text: 'بِسْمِ اللَّهِ.', virtue: 'قلها قبل الأكل والشرب تبارك الله لك.', source: 'رواه أبو داود 3767 والترمذي 1858' },
+      { t: 'بعد الأكل والشرب', count: 1, ic: 'kPlate', text: 'الْحَمْدُ لِلَّهِ الَّذِي أَطْعَمَنِي هَذَا وَرَزَقَنِيهِ مِنْ غَيْرِ حَوْلٍ مِنِّي وَلَا قُوَّةٍ.', virtue: 'من قالها غُفرت ذنوبه.', source: 'رواه الترمذي 3458' },
+      { t: 'لبس الثوب', count: 1, ic: 'kShirt', text: 'اللَّهُمَّ لَكَ الْحَمْدُ أَنْتَ كَسَوْتَنِيهِ، أَسْأَلُكَ مِنْ خَيْرِهِ وَخَيْرِ مَا صُنِعَ لَهُ، وَأَعُوذُ بِكَ مِنْ شَرِّهِ وَشَرِّ مَا صُنِعَ لَهُ.', virtue: 'دعاء عند لبس الثوب.', source: 'رواه أبو داود 4018' },
+      { t: 'بر الوالدين', count: 1, ic: 'kHug', text: 'رَبِّ ارْحَمْهُمَا كَمَا رَبَّيَانِي صَغِيرًا.', virtue: 'بر الوالدين من أعظم القربات، ودعاء لهما.', source: 'سورة الإسراء 24' },
+      { t: 'صلة الرحم', count: 1, ic: 'kTree', text: 'أَفْضَلُ الصَّدَقَةِ عَلَى الْأَقْرَبِ فَالْأَقْرَبِ.', virtue: 'صلة الرحم تزيد في الرزق وتحسن العلاقات.', source: 'رواه أبو داود 1631' },
+      { t: 'احترام الكبير', count: 1, ic: 'kHand', text: 'مَنْ لَمْ يُرْحَمْ صَغِيرَنَا وَلَمْ يُوَقِّرْ كَبِيرَنَا فَلَيْسَ مِنَّا.', virtue: 'الرحمة بالصغار واحترام الكبار من شيم الإسلام.', source: 'رواه الترمذي 2018' }
+    ]
+  },
+  sunan: {
+    n: 'السنن', sub: 'الأذان والوضوء والصلاة ورؤية الهلال', ic: 'kMosque',
+    items: [
+      { t: 'دعاء الأذان', count: 1, ic: 'kLoud', text: 'اللَّهُمَّ رَبَّ هَذِهِ الدَّعْوَةِ التَّامَّةِ، وَالصَّلَاةِ الْقَائِمَةِ، آتِ مُحَمَّدًا الْوَسِيلَةَ وَالْفَضِيلَةَ، وَابْعَثْهُ مَقَامًا مَحْمُودًا الَّذِي وَعَدْتَهُ.', virtue: 'من قالها دُعِي له بالشفاعة يوم القيامة.', source: 'رواه البخاري 614 ومسلم 383' },
+      { t: 'الوضوء قبله', count: 1, ic: 'kDrop', text: 'بِسْمِ اللَّهِ.', virtue: 'التسمية عند بدء الوضوء سنة.', source: 'رواه مسلم 225' },
+      { t: 'بعد الوضوء', count: 1, ic: 'kDrop', text: 'أَشْهَدُ أَنْ لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ.', virtue: 'من قالها بعد الوضوء غُفرت خطاياه.', source: 'رواه مسلم 234' },
+      { t: 'الركوع والسجود', count: 1, ic: 'kSujud', text: 'رَبِّ اغْفِرْ لِي.', virtue: 'يقولها بين التشهد والتسليم في كل صلاة.', source: 'رواه أبو داود 1532 والترمذي 304' },
+      { t: 'بعد السلام', count: 1, ic: 'kPray', text: 'أَسْتَغْفِرُ اللَّهَ.', virtue: 'يقال بعد السلام من الصلاة.', source: 'رواه مسلم 591' },
+      { t: 'رؤية الهلال', count: 1, ic: 'kMoonStar', text: 'اللَّهُمَّ أَهِلَّهُ عَلَيْنَا بِالْيُمْنِ وَالْإِيمَانِ وَالسَّلَامَةِ وَالْإِسْلَامِ، رَبِّي وَرَبُّكَ اللَّهُ.', virtue: 'دعاء عند رؤية هلال الشهر.', source: 'رواه الترمذي 3451' }
+    ]
+  }
+};
 const KEY = 'haseen_v4', OLD = 'haseen_v3';
 let mode = 'sabahmasa', sabahSub = 'morning', remaining = {}, favs = new Set(),
     hideDone = false, query = '', soundOn = true, themeAuto = true, remindOn = false, autoNext = true,
@@ -472,6 +672,7 @@ function filtered() {
 }
 function resetDailyCounters() {
   remaining = {};
+  kidsRem = {};
   ensureKeys();
   try {
     const r = recommended();
@@ -508,6 +709,7 @@ function load() {
       if (s.sabahSub === 'morning' || s.sabahSub === 'evening') sabahSub = s.sabahSub;
     }
     if (Array.isArray(s.favs)) favs = new Set(s.favs);
+    if (s.kidsRem && typeof s.kidsRem === 'object') kidsRem = s.kidsRem;
     if (typeof s.hideDone === 'boolean') hideDone = s.hideDone;
     if (typeof s.soundOn === 'boolean') soundOn = s.soundOn;
     if (typeof s.themeAuto === 'boolean') themeAuto = s.themeAuto;
@@ -532,7 +734,7 @@ function save() {
   const cs = getComputedStyle(document.documentElement);
   localStorage.setItem(KEY, JSON.stringify({
     date: todayISO(),
-    remaining, mode, sabahSub, favs: [...favs], hideDone, soundOn, themeAuto, remindOn, autoNext,
+    remaining, kidsRem, mode, sabahSub, favs: [...favs], hideDone, soundOn, themeAuto, remindOn, autoNext,
     cityIdx, gpsLoc, tc, fontId, theme: document.documentElement.getAttribute('data-theme') || 'light',
     fsText: parseInt(cs.getPropertyValue('--font-size')) || 19,
     fsUi: parseInt(cs.getPropertyValue('--font-ui')) || 16
@@ -735,84 +937,337 @@ async function shareImage(i) {
     else { const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'haseen.png'; a.click(); }
   });
 }
-const TILE_NAMES = { sabahmasa: 'الصباح والمساء', sleep: 'النوم', wake: 'الاستيقاظ', salah: 'الصلاة', duas: 'أدعية مختارة', others: 'أذكار أخرى', fav: 'المفضلة' };
+const TILE_NAMES = { sabahmasa: 'الصباح والمساء', sleep: 'أذكار النوم', wake: 'أذكار الاستيقاظ', salah: 'أذكار الصلاة', duas: 'أدعية مختارة', others: 'أذكار أخرى', fav: 'المفضلة' };
 const TILE_ICONS = { sabahmasa: 'sunrise', sleep: 'moon', wake: 'sun', salah: 'cube', duas: 'book', others: 'case' };
-function renderTiles() {
-  document.querySelectorAll('#tiles .tile').forEach(b => {
-    b.classList.toggle('active', b.dataset.m === mode);
-    const ic = b.querySelector('.ic');
-    if (ic && !ic.innerHTML) ic.innerHTML = I[TILE_ICONS[b.dataset.m]] || '';
+/* ===== مُوجِّه التنقل متعدد الصفحات ===== */
+let route = { name: 'home' }, viewItems = [], kidsRem = {};
+function go(hash) { if (location.hash === hash) render(); else location.hash = hash; }
+function parseHash() {
+  const h = (location.hash || '').replace(/^#\/?/, '');
+  const p = h.split('/').filter(Boolean);
+  if (!p.length) return { name: 'home' };
+  switch (p[0]) {
+    case 's': return { name: 'section', cat: p[1] || 'sabahmasa' };
+    case 'd': return { name: 'dhikr', idx: Math.max(0, +p[1] || 0) };
+    case 'q': return { name: 'search', q: decodeURIComponent(p[1] || '') };
+    case 'fav': return { name: 'fav' };
+    case 'kids': return p[2] !== undefined ? { name: 'kidsItem', group: p[1], idx: Math.max(0, +p[2] || 0) } : (p[1] ? { name: 'kidsList', group: p[1] } : { name: 'kids' });
+    case 'duas': return { name: 'duas' };
+    default: return { name: 'home' };
+  }
+}
+function kidKey(g, i) { return g + '_' + i; }
+function kidRem(g, i, it) { const k = kidKey(g, i); return (k in kidsRem) ? kidsRem[k] : it.count; }
+/* بناء بطاقة ذكر قابلة لإعادة الاستخدام */
+function cardHTML(d, rem, num, opt) {
+  opt = opt || {};
+  const dots = d.count <= 30
+    ? Array.from({ length: d.count }).map((_, j) => `<span class="dot ${j < d.count - rem ? 'on' : ''}"></span>`).join('')
+    : `<span style="font-size:.8rem;color:var(--muted);font-weight:700">تقدم: ${d.count - rem} / ${d.count}</span>`;
+  return `
+    <div class="card-head"><span class="num">${num}</span><h3>${d.t}</h3>
+      ${opt.noFav ? '' : `<button class="mini-btn ${favs.has(opt.fi) ? 'on' : ''}" data-fav="${opt.fi}" title="مفضلة" aria-label="مفضلة">${I.star}</button>`}
+    </div>
+    ${opt.art ? `<div style="text-align:center;margin:.3rem 0">${opt.art}</div>` : ''}
+    <p class="text">${d.text}</p>
+    ${d.virtue ? `<div class="virtue"><b>الفضل:</b> ${d.virtue}</div>` : ''}
+    <div class="src">المصدر: ${d.source}</div>
+    <div class="done-label">تم — تقبل الله</div>
+    <div class="counter-line">
+      <div class="big-count">${rem}</div>
+      <div class="dots">${dots}</div>
+      <div class="counter-info">المتبقي <b>${rem}</b> من ${d.count} — المس أي مكان في المربع</div>
+    </div>
+    <div class="actions">
+      <div class="acts-group">
+        <button class="mini-btn" data-share-t="${encodeURIComponent(d.t)}" data-share-x="${encodeURIComponent(d.text)}" data-share-s="${encodeURIComponent(d.source)}" title="مشاركة" aria-label="مشاركة الذكر">${I.share}</button>
+        ${opt.fi !== undefined && !opt.noFav ? `<button class="mini-btn" data-img="${opt.fi}" title="نسخة مصورة" aria-label="مشاركة صورة">${I.img}</button>` : ''}
+        <button class="mini-btn" data-copy-t="${encodeURIComponent(d.t)}" data-copy-x="${encodeURIComponent(d.text)}" data-copy-s="${encodeURIComponent(d.source)}" title="نسخ" aria-label="نسخ الذكر">${I.copy}</button>
+      </div>
+      <div class="acts-group">
+        <button class="mini-btn" data-cfont title="تغيير الخط" aria-label="تغيير الخط">خط</button>
+        <button class="mini-btn" data-fminus title="تصغير الخط" aria-label="تصغير الخط">أ−</button>
+        <button class="mini-btn" data-fplus title="تكبير الخط" aria-label="تكبير الخط">أ+</button>
+      </div>
+    </div>`;
+}
+function mkCard(html, rem, onTap, cardIdx) {
+  const card = document.createElement('article');
+  card.className = 'card' + (rem === 0 ? ' done' : '');
+  card.tabIndex = 0;
+  card.setAttribute('role', 'button');
+  if (cardIdx !== undefined) card.dataset.card = cardIdx;
+  card.innerHTML = html;
+  card.addEventListener('click', (e) => { if (e.target.closest('button')) return; onTap(); });
+  card.addEventListener('keydown', (e) => { if ((e.key === 'Enter' || e.key === ' ') && !e.target.closest('button')) { e.preventDefault(); onTap(); } });
+  return card;
+}
+function searchBoxHTML(val) {
+  return `<div class="search"><div class="search-box"><span id="searchIc">${I.search}</span><input id="search" type="search" value="${(val || '').replace(/"/g, '&quot;')}" placeholder="ابحث في كل الأذكار وركن الأطفال..." aria-label="ابحث في كل الأذكار"></div></div>`;
+}
+let _searchCaret = null;
+function bindSearch() {
+  const el = document.getElementById('search');
+  if (!el) return;
+  el.addEventListener('input', (e) => {
+    const v = e.target.value.trim();
+    clearTimeout(window._sq);
+    window._sq = setTimeout(() => { _searchCaret = v.length; if (v) go('#/q/' + encodeURIComponent(v)); else go('#/'); }, 260);
   });
+  if (_searchCaret !== null) {
+    const n = _searchCaret; _searchCaret = null;
+    el.focus();
+    try { el.setSelectionRange(n, n); } catch (e) {}
+  }
+}
+function progHTML(title, done, total, left, extra) {
+  const pct = total ? Math.round(done / total * 100) : 0;
+  return `<div class="progress-wrap">
+    <div class="progress-meta"><span>${title} — أنجزت ${done} من ${total}</span><span>متبقي ${left}</span></div>
+    <div class="progress" role="progressbar" aria-label="التقدم"><i style="width:${pct}%"></i></div>
+    ${extra || ''}
+  </div>`;
+}
+function resetBtnsHTML() {
+  return `<div style="display:flex;gap:.6rem;justify-content:center;margin-top:.55rem;flex-wrap:wrap">
+    <button class="btn" data-act="resetView">تصفير هذا الورد</button>
+    <button class="btn" data-act="resetAll">تصفير الكل</button>
+  </div>`;
 }
 function themeIcon(dark) { return dark ? I.moon : I.sun; }
 function syncChrome() {
   const th = document.documentElement.getAttribute('data-theme') || 'light';
   document.getElementById('themeBtn').innerHTML = themeIcon(th === 'dark');
-  document.getElementById('soundBtn').innerHTML = (soundOn ? I.vol : I.volx) + ' الصوت';
   try {
     const c = getComputedStyle(document.documentElement).getPropertyValue('--acc-dark').trim();
     if (c) document.querySelector('meta[name="theme-color"]').setAttribute('content', c);
   } catch (e) {}
 }
-function render() {
-  renderTiles();
-  document.getElementById('subtabs').classList.toggle('show', mode === 'sabahmasa' && !query.trim());
-  document.querySelectorAll('.subtab').forEach(b => {
-    b.classList.toggle('active', b.dataset.sub === sabahSub);
-    const sub = b.dataset.sub;
-    const tot = DATA.filter(d => d.cat === sub || d.cat === 'both').length;
-    const dn = DATA.filter((d, i) => (d.cat === sub || d.cat === 'both') && remFor(i, sub) === 0).length;
-    b.innerHTML = `${sub === 'morning' ? 'الصباح' : 'المساء'} <span style="font-size:.78em;opacity:.8">${dn}/${tot}</span>`;
-  });
-  const list = document.getElementById('list'); list.innerHTML = '';
+/* ===== الصفحات ===== */
+function viewHome() {
+  const v = document.getElementById('view');
+  v.innerHTML = `
+    ${searchBoxHTML('')}
+    <div class="tiles" id="tiles">
+      ${Object.keys(TILE_NAMES).filter(k => k !== 'fav').map(k => `
+        <button class="tile" data-go="#/s/${k}"><span class="ic">${I[TILE_ICONS[k]] || ''}</span><b>${TILE_NAMES[k]}</b><small>${{ sabahmasa: 'وردا اليوم', sleep: 'قبل النوم', wake: 'عند القيام', salah: 'دبر الصلوات', duas: 'من جوامع الدعاء', others: 'سفر وغيرها' }[k] || ''}</small></button>`).join('')}
+    </div>
+    ${kidsWindowHTML()}
+    <div class="focus-row"><button class="btn" data-act="focus" style="border-color:var(--acc);color:var(--acc)">وضع التركيز</button><button class="btn" data-act="cal" style="border-color:var(--acc);color:var(--acc)">التقويم والإنجاز</button></div>`;
+  bindSearch();
+}
+function kidsWindowHTML() {
+  const total = Object.keys(KIDS).reduce((a, g) => a + KIDS[g].items.length, 0);
+  const done = Object.keys(KIDS).reduce((a, g) => a + KIDS[g].items.filter((it, i) => kidRem(g, i, it) === 0).length, 0);
+  const cards = Object.keys(KIDS).map(g => {
+    const k = KIDS[g], dn = k.items.filter((it, i) => kidRem(g, i, it) === 0).length;
+    const pct = Math.round(dn / k.items.length * 100);
+    return `<button class="kids-card" data-go="#/kids/${g}">
+      <div class="kc-art">${KI[k.ic] || ''}</div>
+      <div class="kc-txt"><b>${k.n}</b><small>${k.sub}</small><div class="kc-prog"><i style="width:${pct}%"></i></div></div>
+      <div class="kc-go">‹</div>
+    </button>`;
+  }).join('');
+  return `<div class="kids-window">
+    <div class="kw-head"><h2>ركن الأطفال</h2><p>أذكار صغيرة لقلوب طاهرة — أتممت ${done} من ${total}</p></div>
+    <div class="kids-cards">${cards}</div>
+  </div>`;
+}
+function viewKids() {
+  document.getElementById('view').innerHTML = `
+    <div class="page-head"><button class="back-btn" data-go="#/">رجوع</button><div class="ph-ic">${KI.kStar}</div><b>ركن الأطفال<small>اختر القسم لتبدأ</small></b></div>
+    ${kidsWindowHTML()}`;
+}
+function viewKidsList(group) {
+  const k = KIDS[group];
+  if (!k) return go('#/kids');
+  const v = document.getElementById('view');
+  v.innerHTML = `
+    <div class="page-head"><button class="back-btn" data-go="#/kids">رجوع</button><div class="ph-ic">${KI[k.ic] || ''}</div><b>${k.n}<small>${k.sub}</small></b></div>
+    <div class="kid-hero"><div class="kh-art">${KI[k.ic] || ''}</div><div><b>${k.n}</b><small>اضغط على أي ذكر لتتعلمه وتسبّح به</small></div></div>
+    <div class="list-drop">${k.items.map((it, i) => {
+      const rem = kidRem(group, i, it);
+      return `<button class="drop-item${rem === 0 ? ' done' : ''}" data-go="#/kids/${group}/${i}">
+        <span class="di-ic">${KI[it.ic] || ''}</span><span class="dn">${it.t}</span><i>${rem === 0 ? 'تم ✓' : 'المتبقي ' + rem}</i></button>`;
+    }).join('')}</div>`;
+}
+function viewKidsItem(group, i) {
+  const k = KIDS[group], it = k && k.items[i];
+  if (!it) return go('#/kids');
+  const rem = kidRem(group, i, it);
+  const v = document.getElementById('view');
+  v.className = 'kid-page';
+  v.innerHTML = `
+    <div class="page-head"><button class="back-btn" data-go="#/kids/${group}">رجوع</button><div class="ph-ic">${KI[it.ic] || ''}</div><b>${it.t}<small>${k.n} — ركن الأطفال</small></b></div>
+    <div class="reward" id="rewardBox"></div>
+    <div id="kidCards"></div>`;
+  const list = document.getElementById('kidCards');
+  list.appendChild(mkCard(cardHTML(it, rem, 1, { noFav: true, art: `<div style="width:110px;height:110px;margin:auto">${KI[it.ic] || ''}</div>` }), rem, () => kidTap(group, i)));
+  renderReward(group);
+}
+function renderReward(group) {
+  const box = document.getElementById('rewardBox');
+  if (!box) return;
+  const k = KIDS[group], total = k.items.length, done = k.items.filter((it, i) => kidRem(group, i, it) === 0).length;
+  const stars = Array.from({ length: total }).map((_, j) => `<span class="rw-star ${j < done ? 'on' : ''}"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" d="M12 2.6l2.9 5.9 6.5.95-4.7 4.6 1.1 6.45L12 17.45 6.2 20.5l1.1-6.45-4.7-4.6 6.5-.95z"/></svg></span>`).join('');
+  box.innerHTML = `<b>لوحة المكافآت</b><div class="rw-stars">${stars}</div>
+    <div class="rw-msg">${done === total ? '🎉 أتممت كل الأذكار — أحسنت!' : `جمعت ${done} من ${total} نجمة`}</div>`;
+}
+function kidTap(group, i) {
+  const it = KIDS[group].items[i], k = kidKey(group, i);
+  const cur = kidRem(group, i, it);
+  if (cur > 0) {
+    kidsRem[k] = cur - 1; playTick();
+    if (navigator.vibrate) try { navigator.vibrate(15); } catch (_) {}
+    if (kidsRem[k] === 0) {
+      playDone(); save(); viewKidsItem(group, i); checkKidsGroupDone(group); return;
+    }
+  }
+  save(); viewKidsItem(group, i);
+}
+function checkKidsGroupDone(group) {
+  const k = KIDS[group], all = k.items.every((it, i) => kidRem(group, i, it) === 0);
+  if (!all) return;
+  const total = Object.keys(KIDS).reduce((a, g) => a + KIDS[g].items.length, 0);
+  const done = Object.keys(KIDS).reduce((a, g) => a + KIDS[g].items.filter((it, i) => kidRem(g, i, it) === 0).length, 0);
+  party(done === total ? 'ركن الأطفال كاملاً!' : 'أحسنت! ' + k.n, done === total ? 'ما شاء الله! أتممت كل أذكار ركن الأطفال. بارك الله فيك.' : `ما شاء الله! أتممت ${k.n} كلها.`, k.ic);
+}
+function party(title, msg, ic) {
+  document.getElementById('partyTitle').textContent = title;
+  document.getElementById('partyMsg').textContent = msg;
+  document.getElementById('partyArt').innerHTML = KI[ic] || KI.kStar;
+  document.getElementById('partyOv').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  confetti();
+}
+function confetti() {
+  const ov = document.getElementById('partyOv');
+  const colors = ['#ff5d8f', '#ffd166', '#4ade80', '#60a5fa', '#a78bfa', '#fb923c'];
+  for (let i = 0; i < 60; i++) {
+    const c = document.createElement('i');
+    c.className = 'confetti';
+    c.style.left = Math.random() * 100 + 'vw';
+    c.style.background = colors[i % colors.length];
+    c.style.animationDuration = (1.6 + Math.random() * 1.6) + 's';
+    c.style.animationDelay = (Math.random() * .5) + 's';
+    ov.appendChild(c);
+    setTimeout(() => c.remove(), 3800);
+  }
+}
+function viewSection(cat) {
+  if (cat === 'duas') return viewDuas();
+  mode = cat; query = '';
+  const v = document.getElementById('view');
+  v.className = '';
+  const subtabs = cat === 'sabahmasa' ? `<div class="subtabs show">
+      ${['morning', 'evening'].map(s => {
+        const tot = DATA.filter(d => d.cat === s || d.cat === 'both').length;
+        const dn = DATA.filter((d, i) => (d.cat === s || d.cat === 'both') && remFor(i, s) === 0).length;
+        return `<button class="subtab${s === sabahSub ? ' active' : ''}" data-sub="${s}">${s === 'morning' ? 'الصباح' : 'المساء'} <span style="font-size:.78em;opacity:.8">${dn}/${tot}</span></button>`;
+      }).join('')}</div>` : '';
+  if (cat === 'others') {
+    const items = DATA.map((d, i) => ({ d, i })).filter(({ d }) => d.cat === 'others');
+    v.innerHTML = `
+      <div class="page-head"><button class="back-btn" data-go="#/">رجوع</button><div class="ph-ic">${I[TILE_ICONS.others]}</div><b>أذكار أخرى<small>اختر الذكر لتفتح صفحة كاملة به</small></b></div>
+      ${searchBoxHTML('')}
+      <div class="list-drop">${items.map(({ d, i }) => {
+        const rem = remOf(i);
+        return `<button class="drop-item${rem === 0 ? ' done' : ''}" data-go="#/d/${i}"><span class="di-ic">${I.star}</span><span class="dn">${d.t}</span><i>${rem === 0 ? 'تم ✓' : 'المتبقي ' + rem}</i></button>`;
+      }).join('')}</div>`;
+    bindSearch();
+    return;
+  }
   const items = filtered();
+  viewItems = items;
   const doneShown = items.filter(({ d, i }) => remOf(i) === 0).length;
   const left = items.reduce((a, { d, i }) => a + remOf(i), 0);
-  const title = query.trim() ? `نتائج البحث (${items.length})` : (TILE_NAMES[mode] || 'الأذكار');
-  items.forEach(({ d, i }, idx) => {
-    const rem = remOf(i);
-    const card = document.createElement('article');
-    card.className = 'card' + (rem === 0 ? ' done' : '');
-    card.dataset.card = i;
-    card.tabIndex = 0;
-    card.setAttribute('role', 'button');
-    card.setAttribute('aria-label', d.t + ' — المتبقي ' + rem + ' من ' + d.count);
-    const dots = d.count <= 30
-      ? Array.from({ length: d.count }).map((_, j) => `<span class="dot ${j < d.count - rem ? 'on' : ''}"></span>`).join('')
-      : `<span style="font-size:.8rem;color:var(--muted);font-weight:700">تقدم: ${d.count - rem} / ${d.count}</span>`;
-    card.innerHTML = `
-      <div class="card-head"><span class="num">${idx + 1}</span><h3>${d.t}</h3>
-        <button class="mini-btn ${favs.has(i) ? 'on' : ''}" data-fav="${i}" title="مفضلة" aria-label="مفضلة">${I.star}</button>
-      </div>
-      <p class="text">${d.text}</p>
-      ${d.virtue ? `<div class="virtue"><b>الفضل:</b> ${d.virtue}</div>` : ''}
-      <div class="src">المصدر: ${d.source}</div>
-      <div class="done-label">تم — تقبل الله</div>
-      <div class="counter-line">
-        <div class="big-count">${rem}</div>
-        <div class="dots">${dots}</div>
-        <div class="counter-info">المتبقي <b>${rem}</b> من ${d.count} — المس أي مكان في المربع</div>
-      </div>
-      <div class="actions">
-        <div class="acts-group">
-          <button class="mini-btn" data-share="${i}" title="مشاركة" aria-label="مشاركة الذكر">${I.share}</button>
-          <button class="mini-btn" data-img="${i}" title="نسخة مصورة" aria-label="مشاركة صورة">${I.img}</button>
-          <button class="mini-btn" data-copy="${i}" title="نسخ" aria-label="نسخ الذكر">${I.copy}</button>
-        </div>
-        <div class="acts-group">
-          <button class="mini-btn" data-cfont="${i}" title="تغيير الخط" aria-label="تغيير الخط">خط</button>
-          <button class="mini-btn" data-fminus title="تصغير الخط" aria-label="تصغير الخط">أ−</button>
-          <button class="mini-btn" data-fplus title="تكبير الخط" aria-label="تكبير الخط">أ+</button>
-        </div>
-      </div>`;
-    card.addEventListener('click', (e) => { if (e.target.closest('button')) return; tap(i); });
-    card.addEventListener('keydown', (e) => { if ((e.key === 'Enter' || e.key === ' ') && !e.target.closest('button')) { e.preventDefault(); tap(i); } });
-    list.appendChild(card);
-  });
+  v.innerHTML = `
+    <div class="page-head"><button class="back-btn" data-go="#/">رجوع</button><div class="ph-ic">${I[TILE_ICONS[cat]] || ''}</div><b>${TILE_NAMES[cat] || 'الأذكار'}<small>${cat === 'sabahmasa' ? (sabahSub === 'morning' ? 'ورد الصباح' : 'ورد المساء') : 'اضغط على أي بطاقة للتسبيح'}</small></b></div>
+    ${subtabs}
+    ${searchBoxHTML('')}
+    <div class="focus-row"><button class="btn" data-act="focus" style="border-color:var(--acc);color:var(--acc)">وضع التركيز</button></div>
+    ${progHTML(TILE_NAMES[cat] || 'الأذكار', doneShown, items.length, left, resetBtnsHTML())}
+    <main id="list"></main>`;
+  const list = document.getElementById('list');
+  items.forEach(({ d, i }, idx) => list.appendChild(mkCard(cardHTML(d, remOf(i), idx + 1, { fi: i }), remOf(i), () => tap(i), i)));
   if (!items.length) list.innerHTML = '<div class="empty">لا نتائج مطابقة. جرّب كلمة أخرى.</div>';
-  document.getElementById('stText').textContent = `${title} — أنجزت ${doneShown} من ${items.length}`;
-  document.getElementById('stLeft').textContent = `متبقي ${left}`;
-  document.getElementById('bar').style.width = (items.length ? Math.round(doneShown / items.length * 100) : 0) + '%';
+  bindSearch();
+}
+function viewDhikr(i) {
+  const d = DATA[i];
+  if (!d) return go('#/');
+  mode = d.cat === 'both' ? 'sabahmasa' : d.cat;
+  const v = document.getElementById('view');
+  v.className = 'kid-page';
+  const rem = remOf(i);
+  v.innerHTML = `
+    <div class="page-head"><button class="back-btn" data-go="#/${d.cat === 'both' ? 's/sabahmasa' : 's/' + d.cat}">رجوع</button><div class="ph-ic">${I[TILE_ICONS[d.cat === 'both' ? 'sabahmasa' : d.cat]] || I.star}</div><b>${d.t}<small>ذكر كامل</small></b></div>
+    <div id="oneCard"></div>`;
+  document.getElementById('oneCard').appendChild(mkCard(cardHTML(d, rem, 1, { fi: i }), rem, () => tap(i)));
+}
+function viewFav() {
+  mode = 'fav';
+  const items = filtered();
+  viewItems = items;
+  const v = document.getElementById('view');
+  v.className = '';
+  const doneShown = items.filter(({ d, i }) => remOf(i) === 0).length;
+  const left = items.reduce((a, { d, i }) => a + remOf(i), 0);
+  v.innerHTML = `
+    <div class="page-head"><button class="back-btn" data-go="#/">رجوع</button><div class="ph-ic">${I.star}</div><b>المفضلة<small>أذكارك المحفوظة</small></b></div>
+    ${progHTML('المفضلة', doneShown, items.length, left)}
+    <main id="list"></main>`;
+  const list = document.getElementById('list');
+  items.forEach(({ d, i }, idx) => list.appendChild(mkCard(cardHTML(d, remOf(i), idx + 1, { fi: i }), remOf(i), () => tap(i), i)));
+  if (!items.length) list.innerHTML = '<div class="empty">لم تضف أي ذكر إلى المفضلة بعد — اضغط النجمة في أي بطاقة.</div>';
+}
+function viewSearch(q) {
+  mode = 'search'; query = q;
+  const res = [];
+  DATA.forEach((d, i) => { if ((d.t + d.text + d.source).includes(q)) res.push({ d, i, kid: false }); });
+  Object.keys(KIDS).forEach(g => KIDS[g].items.forEach((it, j) => { if ((it.t + it.text + it.source).includes(q)) res.push({ d: it, i: j, kid: true, g }); }));
+  viewItems = res;
+  const v = document.getElementById('view');
+  v.className = '';
+  v.innerHTML = `
+    <div class="page-head"><button class="back-btn" data-go="#/">رجوع</button><div class="ph-ic">${I.search}</div><b>نتائج البحث (${res.length})<small>عن: ${q}</small></b></div>
+    ${searchBoxHTML(q)}
+    <main id="list"></main>`;
+  const list = document.getElementById('list');
+  res.forEach(({ d, i, kid, g }, idx) => {
+    const rem = kid ? kidRem(g, i, d) : remOf(i);
+    list.appendChild(mkCard(cardHTML(d, rem, idx + 1, { noFav: kid, fi: kid ? undefined : i }), rem, () => { if (kid) go('#/kids/' + g + '/' + i); else go('#/d/' + i); }, kid ? undefined : i));
+  });
+  if (!res.length) list.innerHTML = '<div class="empty">لا نتائج مطابقة. جرّب كلمة أخرى.</div>';
+  bindSearch();
+}
+/* صفحة الأدعية المصوّرة من الملف (50 صفحة) */
+const DUAS_PAGES = 50;
+let duaPage = 1;
+function viewDuas() {
+  const v = document.getElementById('view');
+  v.className = '';
+  v.innerHTML = `
+    <div class="page-head"><button class="back-btn" data-go="#/">رجوع</button><div class="ph-ic">${I.book}</div><b>أدعية مختارة<small>من جوامع الدعاء النبوي ﷺ</small></b></div>
+    ${DUAS_PAGES ? `<div class="pdf-nav no-print"><button class="btn" data-act="duaPrev">› السابق</button><b id="duaLbl">صفحة ${duaPage} من ${DUAS_PAGES}</b><button class="btn" data-act="duaNext">التالي ‹</button><button class="btn" data-act="duaPrint" style="border-color:var(--acc);color:var(--acc)">طباعة / حفظ PDF</button></div>
+    <div class="pdf-page"><img id="duaImg" src="duas/p${duaPage}.jpg" alt="صفحة الأدعية ${duaPage}" loading="lazy"></div>` : `<div class="empty">جاري تجهيز صور الأدعية…</div>`}`;
+}
+/* البدء بالمُوجِّه */
+function render() {
+  route = parseHash();
+  const v = document.getElementById('view');
+  v.className = '';
+  switch (route.name) {
+    case 'section': viewSection(route.cat); break;
+    case 'dhikr': viewDhikr(route.idx); break;
+    case 'kids': viewKids(); break;
+    case 'kidsList': viewKidsList(route.group); break;
+    case 'kidsItem': viewKidsItem(route.group, route.idx); break;
+    case 'duas': viewDuas(); break;
+    case 'fav': viewFav(); break;
+    case 'search': viewSearch(route.q); break;
+    default: viewHome();
+  }
   document.getElementById('themeAutoBtn').classList.toggle('active', themeAuto);
   document.getElementById('hideDoneBtn').classList.toggle('active', hideDone);
   document.getElementById('autoNextBtn').classList.toggle('active', autoNext);
@@ -863,7 +1318,6 @@ function renderFocus() {
   document.getElementById('focusCount').textContent = rem === 0 ? 'تم' : rem;
   document.getElementById('focusProg').textContent = `المتبقي ${rem} من ${d.count} — المس النص للتسبيح`;
 }
-document.getElementById('focusBtn').onclick = openFocus;
 document.getElementById('focusClose').onclick = closeFocus;
 document.getElementById('focusBack').onclick = closeFocus;
 document.getElementById('focusBody').onclick = (e) => { if (e.target.closest('button')) return; const items = filtered(); if (items[focusPos]) tap(items[focusPos].i); };
@@ -912,38 +1366,56 @@ function renderCal() {
   document.getElementById('calDays').textContent = days;
 }
 document.getElementById('calBtn').onclick = () => { document.getElementById('settingsPanel').classList.remove('open'); openCal(); };
-document.getElementById('calBtn2').onclick = openCal;
 document.getElementById('calClose').onclick = closeCal;
+document.getElementById('partyClose').onclick = closeParty;
+document.getElementById('partyOv').onclick = (e) => { if (e.target.id === 'partyOv') closeParty(); };
+addEventListener('keydown', (e) => { if (e.key === 'Escape' && document.getElementById('partyOv').classList.contains('open')) closeParty(); });
+function closeParty() { document.getElementById('partyOv').classList.remove('open'); document.body.style.overflow = ''; }
 document.getElementById('calBack').onclick = closeCal;
 document.getElementById('calPrev').onclick = () => { calM--; if (calM < 0) { calM = 11; calY--; } renderCal(); };
 document.getElementById('calNext').onclick = () => { calM++; if (calM > 11) { calM = 0; calY++; } renderCal(); };
 document.addEventListener('click', (e) => {
-  const tl = e.target.closest('#tiles .tile');
-  if (tl) { mode = tl.dataset.m; query = ''; document.getElementById('search').value = ''; render(); document.getElementById('list').scrollIntoView({ behavior: 'smooth' }); return; }
+  const g = e.target.closest('[data-go]');
+  if (g) { go(g.dataset.go); return; }
+  const act = e.target.closest('[data-act]');
+  if (act) {
+    const a = act.dataset.act;
+    if (a === 'focus') openFocus();
+    else if (a === 'cal') openCal();
+    else if (a === 'resetView') { if (confirm('تصفير عدادات الورد المعروض حالياً؟')) resetCurrentView(); }
+    else if (a === 'resetAll') { if (confirm('تصفير كل العدادات؟')) { remaining = {}; kidsRem = {}; ensureKeys(); render(); } }
+    else if (a === 'duaPrev') { duaPage = Math.max(1, duaPage - 1); viewDuas(); }
+    else if (a === 'duaNext') { duaPage = Math.min(DUAS_PAGES || 1, duaPage + 1); viewDuas(); }
+    else if (a === 'duaPrint') printDua();
+    return;
+  }
   const f = e.target.closest('[data-fav]');
   if (f) { const k = +f.dataset.fav; favs.has(k) ? favs.delete(k) : favs.add(k); render(); return; }
-  const sh = e.target.closest('[data-share]');
-  if (sh) { shareDhikr(+sh.dataset.share); return; }
-  const im = e.target.closest('[data-img]');
-  if (im) { shareImage(+im.dataset.img); return; }
-  const cp = e.target.closest('[data-copy]');
-  if (cp) { const d = DATA[+cp.dataset.copy]; navigator.clipboard?.writeText(d.t + ' — ' + d.text + ' (' + d.source + ')'); cp.innerHTML = '✓'; setTimeout(render, 800); return; }
+  const sh = e.target.closest('[data-share-t]');
+  if (sh) {
+    const txt = decodeURIComponent(sh.dataset.shareT) + '\n' + decodeURIComponent(sh.dataset.shareX) + '\n(المصدر: ' + decodeURIComponent(sh.dataset.shareS) + ' — تطبيق حصين)';
+    if (navigator.share) navigator.share({ title: 'حصين', text: txt }).catch(() => {});
+    else if (navigator.clipboard) navigator.clipboard.writeText(txt);
+    return;
+  }
+  const cp = e.target.closest('[data-copy-t]');
+  if (cp) {
+    const txt = decodeURIComponent(cp.dataset.copyT) + ' — ' + decodeURIComponent(cp.dataset.copyX) + ' (' + decodeURIComponent(cp.dataset.copyS) + ')';
+    navigator.clipboard?.writeText(txt); cp.innerHTML = '✓'; setTimeout(() => render(), 800); return;
+  }
   const fp = e.target.closest('[data-fplus]');
   if (fp) { changeFontVar('--font-size', 1, 15, 32); return; }
   const fm = e.target.closest('[data-fminus]');
   if (fm) { changeFontVar('--font-size', -1, 15, 32); return; }
-  const ff = e.target.closest('[data-cfont]');
-  if (ff) { cycleFont(); return; }
+  if (e.target.closest('[data-cfont]')) { cycleFont(); return; }
   const st = e.target.closest('.subtab');
-  if (st) {
-    sabahSub = st.dataset.sub;
-    query = ''; document.getElementById('search').value = '';
-    if (mode !== 'sabahmasa') mode = 'sabahmasa';
-    render();
-    document.getElementById('list').scrollIntoView({ behavior: 'smooth' });
-    return;
-  }
+  if (st) { sabahSub = st.dataset.sub; render(); return; }
 });
+function printDua() {
+  const img = document.getElementById('duaImg');
+  if (img && !img.complete) { img.onload = () => setTimeout(() => window.print(), 150); }
+  else setTimeout(() => window.print(), 100);
+}
 function cycleFont() {
   const k = FONTS.findIndex(f => f.id === fontId);
   fontId = FONTS[(k + 1) % FONTS.length].id;
@@ -971,13 +1443,12 @@ function syncThemeRow() {
     row.appendChild(b);
   });
 }
-document.getElementById('search').addEventListener('input', (e) => { query = e.target.value; render(); });
 document.getElementById('settingsBtn').onclick = () => document.getElementById('settingsPanel').classList.toggle('open');
 document.getElementById('hideDoneBtn').onclick = () => { hideDone = !hideDone; render(); };
 document.getElementById('autoNextBtn').onclick = () => { autoNext = !autoNext; render(); };
-document.getElementById('favBtn').onclick = () => { mode = 'fav'; render(); document.getElementById('settingsPanel').classList.remove('open'); document.getElementById('list').scrollIntoView({ behavior: 'smooth' }); };
-document.getElementById('goRecommended').onclick = () => { const r = window._rec || recommended(); mode = r.mode; if (r.sub) sabahSub = r.sub; render(); document.getElementById('list').scrollIntoView({ behavior: 'smooth' }); };
-document.getElementById('soundBtn').onclick = () => { soundOn = !soundOn; render(); };
+document.getElementById('favBtn').onclick = () => { document.getElementById('settingsPanel').classList.remove('open'); go('#/fav'); };
+document.getElementById('goRecommended').onclick = () => { const r = window._rec || recommended(); if (r.sub) sabahSub = r.sub; go('#/s/' + r.mode); };
+document.getElementById('soundBtn').onclick = () => { soundOn = !soundOn; syncChrome(); save(); };
 function changeFontVar(v, d, lo, hi) {
   const root = document.documentElement;
   let fs = parseInt(getComputedStyle(root).getPropertyValue(v)) || lo;
@@ -997,8 +1468,6 @@ document.getElementById('themeBtn').onclick = () => setThemeManual((document.doc
 document.getElementById('themeBtn2').onclick = () => setThemeManual((document.documentElement.getAttribute('data-theme') || 'light') !== 'dark');
 document.getElementById('themeAutoBtn').onclick = () => { themeAuto = true; applyAutoTheme(); save(); render(); };
 document.getElementById('resetBtn').onclick = () => { if (!confirm('تصفير كل العدادات؟')) return; remaining = {}; ensureKeys(); render(); };
-document.getElementById('resetViewBtn').onclick = () => { if (!confirm('تصفير عدادات الورد المعروض حالياً؟')) return; resetCurrentView(); };
-document.getElementById('resetAllBtn2').onclick = () => { if (!confirm('تصفير كل العدادات؟')) return; remaining = {}; ensureKeys(); render(); };
 document.getElementById('remindBtn').onclick = async () => {
   if (!remindOn) {
     if ('Notification' in window) { const p = await Notification.requestPermission(); if (p !== 'granted') { alert('فعّل إذن الإشعارات من المتصفح أولاً.'); return; } }
@@ -1076,14 +1545,16 @@ async function doInstall() {
 }
 document.getElementById('installGo').onclick = doInstall;
 document.getElementById('installBtn').onclick = doInstall;
-document.getElementById('searchIc').innerHTML = I.search;
-load(); tickClock(); setInterval(tickClock, 1000); updateTimeHint(); renderPrayerBar(); syncFontRow(); syncThemeRow(); render(); fetchPrayer();
-(function () {
+/* ترجمة الروابط القديمة إلى مسارات المُوجِّه الجديد */
+(function normalizeHash() {
   const h = (location.hash || '').replace('#', '');
-  if (h === 'morning') { mode = 'sabahmasa'; sabahSub = 'morning'; render(); }
-  else if (h === 'evening') { mode = 'sabahmasa'; sabahSub = 'evening'; render(); }
-  else if (h === 'sleep') { mode = 'sleep'; render(); }
+  const map = { morning: '#/s/sabahmasa', evening: '#/s/sabahmasa', sleep: '#/s/sleep', wake: '#/s/wake', salah: '#/s/salah', duas: '#/s/duas', others: '#/s/others', fav: '#/fav' };
+  if (h === 'morning') sabahSub = 'morning';
+  else if (h === 'evening') sabahSub = 'evening';
+  if (map[h]) { history.replaceState(null, '', map[h]); if (h === 'morning' || h === 'evening') { /* يُنفَّذ بعد التحميل */ } }
 })();
+addEventListener('hashchange', () => { window.scrollTo(0, 0); render(); });
+load(); tickClock(); setInterval(tickClock, 1000); updateTimeHint(); renderPrayerBar(); syncFontRow(); syncThemeRow(); render(); fetchPrayer();
 setInterval(() => { if (themeAuto) applyAutoTheme(); maybeNewDay(); updateTimeHint(); }, 60000);
 </script>
 </body>
