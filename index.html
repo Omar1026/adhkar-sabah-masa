@@ -49,10 +49,12 @@
 [data-font="cairo"]{--font-main:"Cairo",system-ui,Tahoma,sans-serif}
 [data-font="alm"]{--font-main:"Almarai",system-ui,Tahoma,sans-serif}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html{scroll-behavior:smooth;font-size:var(--font-ui);overflow-x:hidden}
-body{margin:0;font-family:var(--font-main);background:var(--bg);color:var(--ink);line-height:2;transition:background .3s,color .3s;overflow-x:hidden;position:relative}
+html{scroll-behavior:smooth;font-size:var(--font-ui);overflow-x:hidden;overflow-x:clip;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{margin:0;font-family:var(--font-main);background:var(--bg);color:var(--ink);line-height:2;transition:background .3s,color .3s;overflow-x:hidden;overflow-x:clip;overscroll-behavior-x:none;position:relative;max-width:100%}
 img,canvas,svg{max-width:100%}
-p,h1,h2,h3{overflow-wrap:break-word}
+p,h1,h2,h3,h4{overflow-wrap:break-word}
+/* منع انزلاق/تجاوز النص أفقياً على الشاشات الضيقة وفي تطبيق PWA */
+.mh-verse,.mh-time,.pc-dates,.pc-head .tt,.tile b,.tile small,.kc-txt b,.kc-txt small,.drop-item .dn,.page-head b,.card h3,.subtab,footer,.focus-title{overflow-wrap:anywhere;min-width:0}
 .svg{width:1.3em;height:1.3em;vertical-align:-.28em}
 .prayer-card{max-width:760px;margin:.6rem auto 0;padding:0 .9rem}
 .prayer-inner{background:var(--card);border:1px solid var(--border);border-radius:18px;box-shadow:var(--shadow);padding:.7rem .9rem}
@@ -1252,8 +1254,17 @@ function viewDuas() {
     ${DUAS_PAGES ? `<div class="pdf-nav no-print"><button class="btn" data-act="duaPrev">› السابق</button><b id="duaLbl">صفحة ${duaPage} من ${DUAS_PAGES}</b><button class="btn" data-act="duaNext">التالي ‹</button><button class="btn" data-act="duaPrint" style="border-color:var(--acc);color:var(--acc)">طباعة / حفظ PDF</button></div>
     <div class="pdf-page"><img id="duaImg" src="duas/p${duaPage}.jpg" alt="صفحة الأدعية ${duaPage}" loading="lazy"></div>` : `<div class="empty">جاري تجهيز صور الأدعية…</div>`}`;
 }
+/* فتح قفل تمرير الصفحة إن لم تكن أي نافذة منبثقة مفتوحة — يمنع بقاء الشاشة ثابتة */
+function unlockScroll() {
+  const locked = ['focusOv', 'calOv', 'partyOv'].some(id => {
+    const el = document.getElementById(id);
+    return el && el.classList.contains('open');
+  });
+  if (!locked && document.body.style.overflow) document.body.style.overflow = '';
+}
 /* البدء بالمُوجِّه */
 function render() {
+  unlockScroll();
   route = parseHash();
   const v = document.getElementById('view');
   v.className = '';
@@ -1504,6 +1515,9 @@ function checkReminder() {
 setInterval(checkReminder, 30000);
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('sw.js').then((reg) => {
+    /* فحص التحديثات عند كل فتح للتطبيق ومرة كل ساعة — ضروري لتطبيق PWA المثبّت */
+    try { reg.update(); } catch (e) {}
+    setInterval(() => { try { reg.update(); } catch (e) {} }, 3600000);
     reg.addEventListener('updatefound', () => {
       const w = reg.installing;
       w.addEventListener('statechange', () => {
@@ -1511,6 +1525,7 @@ if ('serviceWorker' in navigator) {
           document.getElementById('updateBar').classList.add('show');
       });
     });
+    if (reg.waiting) document.getElementById('updateBar').classList.add('show');
   }).catch(() => {});
   let _rl = false;
   navigator.serviceWorker.addEventListener('controllerchange', () => { if (!_rl) { _rl = true; location.reload(); } });
@@ -1546,6 +1561,15 @@ async function doInstall() {
 }
 document.getElementById('installGo').onclick = doInstall;
 document.getElementById('installBtn').onclick = doInstall;
+/* إغلاق كل النوافذ المنبثقة عند التنقل لصفحة أخرى — يمنع بقاء شاشة تغطي المحتوى */
+function closeAllOverlays() {
+  ['focusOv', 'calOv', 'partyOv'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el && el.classList.contains('open')) el.classList.remove('open');
+  });
+  document.body.style.overflow = '';
+  try { if (history.state && history.state.haseen === 'focus') history.replaceState(null, '', location.href); } catch (e) {}
+}
 /* ترجمة الروابط القديمة إلى مسارات المُوجِّه الجديد */
 (function normalizeHash() {
   const h = (location.hash || '').replace('#', '');
@@ -1554,7 +1578,7 @@ document.getElementById('installBtn').onclick = doInstall;
   else if (h === 'evening') sabahSub = 'evening';
   if (map[h]) { history.replaceState(null, '', map[h]); if (h === 'morning' || h === 'evening') { /* يُنفَّذ بعد التحميل */ } }
 })();
-addEventListener('hashchange', () => { window.scrollTo(0, 0); render(); });
+addEventListener('hashchange', () => { closeAllOverlays(); window.scrollTo(0, 0); render(); });
 load(); tickClock(); setInterval(tickClock, 1000); updateTimeHint(); renderPrayerBar(); syncFontRow(); syncThemeRow(); render(); fetchPrayer();
 setInterval(() => { if (themeAuto) applyAutoTheme(); maybeNewDay(); updateTimeHint(); }, 60000);
 </script>
