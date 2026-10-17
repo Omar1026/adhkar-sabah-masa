@@ -54,7 +54,7 @@ body{margin:0;font-family:var(--font-main);background:var(--bg);color:var(--ink)
 img,canvas,svg{max-width:100%}
 p,h1,h2,h3,h4{overflow-wrap:break-word}
 /* منع انزلاق/تجاوز النص أفقياً على الشاشات الضيقة وفي تطبيق PWA */
-.mh-verse,.mh-time,.pc-dates,.pc-head .tt,.tile b,.tile small,.kc-txt b,.kc-txt small,.drop-item .dn,.page-head b,.card h3,.subtab,footer,.focus-title{overflow-wrap:anywhere;min-width:0}
+.mh-verse,.mh-time,.pc-dates,.pc-head .tt,.tile b,.tile small,.kt-txt b,.kt-txt small,.kg-tx b,.kg-tx small,.drop-item .dn,.page-head b,.card h3,.subtab,footer,.focus-title{overflow-wrap:anywhere;min-width:0}
 .svg{width:1.3em;height:1.3em;vertical-align:-.28em}
 .prayer-card{max-width:760px;margin:.6rem auto 0;padding:0 .9rem}
 .prayer-inner{background:var(--card);border:1px solid var(--border);border-radius:18px;box-shadow:var(--shadow);padding:.7rem .9rem}
@@ -208,35 +208,7 @@ footer{text-align:center;color:var(--muted);padding:1.4rem 1rem 2rem;font-size:.
 .drop-item.done{color:var(--muted)}
 
 /* ===== ركن الأطفال ===== */
-.kids-window{position:relative;border-radius:26px;padding:1.1rem 1rem 1.2rem;overflow:hidden;
-  background:linear-gradient(150deg,#ffd66b 0%,#ff9ad5 45%,#8ad7ff 100%);box-shadow:0 12px 30px rgba(255,154,213,.35)}
-.kids-window::before{content:"";position:absolute;inset:0;background:
-  radial-gradient(circle at 12% 18%,rgba(255,255,255,.55) 0 6px,transparent 7px),
-  radial-gradient(circle at 84% 12%,rgba(255,255,255,.5) 0 8px,transparent 9px),
-  radial-gradient(circle at 25% 85%,rgba(255,255,255,.45) 0 5px,transparent 6px),
-  radial-gradient(circle at 72% 78%,rgba(255,255,255,.4) 0 7px,transparent 8px),
-  radial-gradient(circle at 50% 50%,rgba(255,255,255,.25) 0 30%,transparent 60%);pointer-events:none}
-.kids-window>*{position:relative}
-.kw-head{text-align:center;margin-bottom:.8rem}
-.kw-head h2{margin:0;font-size:1.9rem;font-weight:800;color:#5b2a6b;text-shadow:0 2px 0 rgba(255,255,255,.6)}
-.kw-head p{margin:.15rem 0 0;font-weight:700;color:#7a3f8c;font-size:.9rem}
-.kids-cards{display:grid;gap:.75rem}
-.kids-card{display:flex;align-items:center;gap:.75rem;background:#fff;border:none;border-radius:20px;padding:.8rem .9rem;cursor:pointer;font-family:inherit;text-align:right;box-shadow:0 6px 0 rgba(0,0,0,.12);transition:transform .12s,box-shadow .12s;min-width:0}
-.kids-card:active{transform:translateY(3px);box-shadow:0 3px 0 rgba(0,0,0,.12)}
-.kc-art{width:88px;height:88px;border-radius:20px;display:grid;place-items:center;flex-shrink:0}
-.kc-art svg{width:100%;height:100%}
-.kc-txt{flex:1;min-width:0}
-.kc-txt b{display:block;font-size:1.45rem;font-weight:800;color:#3a1f4d;line-height:1.5}
-.kc-txt small{display:block;font-size:.8rem;font-weight:700;color:#7a5a8c}
-.kc-prog{margin-top:.3rem;height:8px;border-radius:999px;background:#f0e2f6;overflow:hidden}
-.kc-prog i{display:block;height:100%;width:0;background:linear-gradient(90deg,#ff8ac2,#ffb347);transition:width .4s}
-.kids-card .kc-go{width:38px;height:38px;border-radius:12px;background:#f7ecfb;color:#8a4aa8;display:grid;place-items:center;flex-shrink:0;font-size:1.1rem;font-weight:800}
 .kid-page{--kidc:#ff8ac2}
-.kid-hero{border-radius:20px;padding:.9rem 1rem;display:flex;align-items:center;gap:.7rem;color:#3a1f4d;background:linear-gradient(140deg,#fff2c9,#ffd9ee)}
-.kid-hero .kh-art{width:74px;height:74px;border-radius:18px;background:#fff;display:grid;place-items:center;flex-shrink:0;box-shadow:0 4px 10px rgba(0,0,0,.1)}
-.kid-hero .kh-art svg{width:100%;height:100%}
-.kid-hero b{font-size:1.3rem;font-weight:800;line-height:1.5}
-.kid-hero small{display:block;font-size:.8rem;font-weight:700;opacity:.8}
 .kid-page .card{border-width:2px}
 .kid-page .card.done{border-color:#3fb984;background:#e9fbf2}
 .kid-page .num{background:#ff8ac2}
@@ -260,27 +232,75 @@ footer{text-align:center;color:var(--muted);padding:1.4rem 1rem 2rem;font-size:.
 .confetti{position:absolute;top:-20px;width:11px;height:16px;border-radius:2px;animation:fall linear forwards}
 @keyframes fall{to{transform:translateY(110vh) rotate(720deg);opacity:.9}}
 
+/* ===== ركن الأطفال: بطاقة مختصرة في الصفحة الرئيسية ===== */
+.kids-tile{position:relative;display:flex;align-items:center;gap:.7rem;width:100%;text-align:right;
+  border:none;border-radius:22px;padding:.8rem 1rem;cursor:pointer;font-family:inherit;color:#4a1f5c;
+  background:linear-gradient(120deg,#ffe08a 0%,#ffb0dd 52%,#a9dcff 100%);
+  box-shadow:0 8px 18px rgba(255,154,213,.3);overflow:hidden;min-width:0;transition:transform .12s}
+.kids-tile:active{transform:scale(.985)}
+.kids-tile::after{content:"";position:absolute;inset:0;background:
+  radial-gradient(circle at 90% 16%,rgba(255,255,255,.6) 0 5px,transparent 6px),
+  radial-gradient(circle at 12% 76%,rgba(255,255,255,.5) 0 4px,transparent 5px);pointer-events:none}
+.kids-tile>*{position:relative}
+.kt-art{width:56px;height:56px;border-radius:16px;background:rgba(255,255,255,.78);display:grid;place-items:center;flex-shrink:0}
+.kt-art svg{width:100%;height:100%}
+.kt-txt{flex:1;min-width:0}
+.kt-txt b{display:block;font-size:1.22rem;font-weight:800;line-height:1.5}
+.kt-txt small{display:block;font-size:.78rem;font-weight:700;opacity:.85}
+.kt-go{width:34px;height:34px;border-radius:11px;background:rgba(255,255,255,.8);display:grid;place-items:center;flex-shrink:0;font-weight:800}
+
+/* ===== ركن الأطفال: الأقسام بقوائم منسدلة داخل الصفحة ===== */
+.kid-group{background:var(--card);border:2px solid var(--border);border-radius:20px;box-shadow:var(--shadow);overflow:hidden}
+.kid-ghead{display:flex;align-items:center;gap:.7rem;width:100%;background:none;border:none;padding:.75rem .85rem;
+  cursor:pointer;font-family:inherit;text-align:right;color:var(--ink);min-width:0}
+.kid-ghead .kg-art{width:54px;height:54px;border-radius:15px;display:grid;place-items:center;flex-shrink:0}
+.kid-ghead .kg-art svg{width:100%;height:100%}
+.kid-ghead .kg-tx{flex:1;min-width:0}
+.kid-ghead .kg-tx b{display:block;font-size:1.18rem;font-weight:800;line-height:1.5}
+.kid-ghead .kg-tx small{display:block;font-size:.76rem;font-weight:700;color:var(--muted)}
+.kid-ghead .kg-go{width:32px;height:32px;border-radius:10px;background:var(--bg2);color:var(--acc);display:grid;place-items:center;flex-shrink:0;font-weight:800;transition:transform .2s}
+.kid-group.open .kid-ghead .kg-go{transform:rotate(180deg)}
+.kid-drop{display:none;border-top:1px dashed var(--border);padding:.5rem .6rem .7rem}
+.kid-group.open .kid-drop{display:block}
+.kid-drop .drop-item{border-radius:14px}
+.kid-drop .drop-item:first-child{border-top:none}
+.kid-row{display:flex;align-items:center;gap:.4rem}
+.kid-add-row{margin-top:.5rem;display:flex;gap:.5rem;flex-wrap:wrap}
+.kid-add-row .btn{border-color:var(--acc);color:var(--acc)}
+.kid-form{margin-top:.5rem;display:grid;gap:.5rem;background:var(--bg2);border:1px dashed var(--border);border-radius:16px;padding:.7rem}
+.kid-form label{font-size:.8rem;font-weight:700;color:var(--muted)}
+.kid-form input,.kid-form textarea{font-family:inherit;font-weight:600;font-size:.92rem;color:var(--ink);
+  background:var(--card);border:1px solid var(--border);border-radius:12px;padding:.5rem .7rem;width:100%;min-width:0;resize:vertical}
+.kid-form textarea{min-height:82px;line-height:1.9}
+.kid-form .kf-btns{display:flex;gap:.5rem;flex-wrap:wrap}
+.kid-del{width:38px;height:38px;border-radius:11px;border:1px solid var(--border);background:var(--bg2);
+  color:#c0392b;cursor:pointer;font-family:inherit;font-weight:800;flex-shrink:0}
+
 /* ===== صفحة الأدعية (صور) ===== */
 .pdf-page{background:var(--card);border:1px solid var(--border);border-radius:16px;box-shadow:var(--shadow);overflow:hidden}
 .pdf-page img{display:block;width:100%;height:auto}
 .pdf-nav{display:flex;align-items:center;justify-content:center;gap:.6rem;flex-wrap:wrap}
 .pdf-nav b{font-weight:800;color:var(--acc);min-width:120px;text-align:center}
 @media print{
-  header,.masthead,.prayer-card,.tiles,.settings,#installBanner,#focusOv,#calOv,.search,.focus-row,#updateBar,.progress-wrap,.back-btn,.page-head .ph-ic,.no-print{display:none!important}
+  header,.masthead,.prayer-card,.tiles,.settings,#installBanner,#focusOv,#calOv,.search,.focus-row,#updateBar,.progress-wrap,.back-btn,.page-head .ph-ic,.no-print,.kids-tile,.kid-group,.reward{display:none!important}
   body{background:#fff}
   #view{padding:0;max-width:none;gap:.4rem}
   .page-head{box-shadow:none;border:1px solid #ccc}
   .card{break-inside:avoid;box-shadow:none;border:1px solid #999}
   .pdf-page img{max-height:96vh;object-fit:contain}
+  /* صفحة الأدعية: كل الصفحات الخمسين في ملف PDF واحد */
+  .duas-book{gap:0}
+  .duas-book .pdf-page{border:none;border-radius:0;box-shadow:none;break-after:page;page-break-after:always}
+  .duas-book .pdf-page:last-child{break-after:auto;page-break-after:auto}
 }
 @media(max-width:480px){
   .mh-title{font-size:2.5rem}
   .text{line-height:2.15}
   .tile b{font-size:.8rem}
   .set-row .lbl{min-width:90px}
-  .kc-art{width:70px;height:70px}
-  .kc-txt b{font-size:1.25rem}
-  .kids-window{border-radius:20px}
+  .kt-art{width:48px;height:48px;border-radius:14px}
+  .kt-txt b{font-size:1.1rem}
+  .kg-art{width:46px;height:46px;border-radius:13px}
 }
 </style>
 </head>
@@ -627,6 +647,15 @@ const KIDS = {
     ]
   }
 };
+/* أذكار وآداب يضيفها المستخدم بنفسه — تُحفظ على الجهاز وتُضاف إلى الأقسام الأصلية */
+let KIDS_EXTRA = {};
+try { KIDS_EXTRA = JSON.parse(localStorage.getItem('haseen_kids_extra') || '{}') || {}; } catch (e) { KIDS_EXTRA = {}; }
+function saveKidsExtra() { try { localStorage.setItem('haseen_kids_extra', JSON.stringify(KIDS_EXTRA)); } catch (e) {} }
+function gExtra(g) { return Array.isArray(KIDS_EXTRA[g]) ? KIDS_EXTRA[g] : []; }
+/* عناصر القسم: الأصلية أولاً ثم ما يضيفه المستخدم */
+function gItems(g) { const x = gExtra(g); return x.length ? KIDS[g].items.concat(x) : KIDS[g].items; }
+function isExtra(g, i) { return i >= KIDS[g].items.length; }
+function kidIcon(it) { return KI[it.ic] || KI.kStar || ''; }
 const KEY = 'haseen_v4', OLD = 'haseen_v3';
 let mode = 'sabahmasa', sabahSub = 'morning', remaining = {}, favs = new Set(),
     hideDone = false, query = '', soundOn = true, themeAuto = true, remindOn = false, autoNext = true,
@@ -961,8 +990,8 @@ function parseHash() {
     default: return { name: 'home' };
   }
 }
-function kidKey(g, i) { return g + '_' + i; }
-function kidRem(g, i, it) { const k = kidKey(g, i); return (k in kidsRem) ? kidsRem[k] : it.count; }
+function kidKey(g, i, it) { return g + '_' + (it && it.key ? it.key : i); }
+function kidRem(g, i, it) { const k = kidKey(g, i, it); return (k in kidsRem) ? kidsRem[k] : it.count; }
 /* بناء بطاقة ذكر قابلة لإعادة الاستخدام */
 function cardHTML(d, rem, num, opt) {
   opt = opt || {};
@@ -1057,69 +1086,134 @@ function viewHome() {
       ${Object.keys(TILE_NAMES).filter(k => k !== 'fav').map(k => `
         <button class="tile" data-go="#/s/${k}"><span class="ic">${I[TILE_ICONS[k]] || ''}</span><b>${TILE_NAMES[k]}</b><small>${{ sabahmasa: 'وردا اليوم', sleep: 'قبل النوم', wake: 'عند القيام', salah: 'دبر الصلوات', duas: 'من جوامع الدعاء', others: 'سفر وغيرها' }[k] || ''}</small></button>`).join('')}
     </div>
-    ${kidsWindowHTML()}
+    ${kidsTileHTML()}
     <div class="focus-row"><button class="btn" data-act="focus" style="border-color:var(--acc);color:var(--acc)">وضع التركيز</button><button class="btn" data-act="cal" style="border-color:var(--acc);color:var(--acc)">التقويم والإنجاز</button></div>`;
   bindSearch();
 }
-function kidsWindowHTML() {
-  const total = Object.keys(KIDS).reduce((a, g) => a + KIDS[g].items.length, 0);
-  const done = Object.keys(KIDS).reduce((a, g) => a + KIDS[g].items.filter((it, i) => kidRem(g, i, it) === 0).length, 0);
-  const cards = Object.keys(KIDS).map(g => {
-    const k = KIDS[g], dn = k.items.filter((it, i) => kidRem(g, i, it) === 0).length;
-    const pct = Math.round(dn / k.items.length * 100);
-    return `<button class="kids-card" data-go="#/kids/${g}">
-      <div class="kc-art">${KI[k.ic] || ''}</div>
-      <div class="kc-txt"><b>${k.n}</b><small>${k.sub}</small><div class="kc-prog"><i style="width:${pct}%"></i></div></div>
-      <div class="kc-go">‹</div>
-    </button>`;
-  }).join('');
-  return `<div class="kids-window">
-    <div class="kw-head"><h2>ركن الأطفال</h2><p>أذكار صغيرة لقلوب طاهرة — أتممت ${done} من ${total}</p></div>
-    <div class="kids-cards">${cards}</div>
-  </div>`;
+/* بطاقة ركن الأطفال المختصرة في الصفحة الرئيسية */
+function kidsTileHTML() {
+  const gs = Object.keys(KIDS);
+  let total = 0, done = 0;
+  gs.forEach(g => {
+    const items = gItems(g);
+    total += items.length;
+    done += items.filter((it, i) => kidRem(g, i, it) === 0).length;
+  });
+  return `<button class="kids-tile" data-go="#/kids">
+    <div class="kt-art">${KI.kStar || ''}</div>
+    <div class="kt-txt"><b>ركن الأطفال</b><small>أذكار وآداب وسنن — جمعت ${done} من ${total} نجمة</small></div>
+    <div class="kt-go">‹</div>
+  </button>`;
 }
+/* صفحة ركن الأطفال: ثلاثة أقسام رأسية تُنفتح بقوائم منسدلة */
+let kidsOpen = '';
 function viewKids() {
   document.getElementById('view').innerHTML = `
-    <div class="page-head"><button class="back-btn" data-go="#/">رجوع</button><div class="ph-ic">${KI.kStar}</div><b>ركن الأطفال<small>اختر القسم لتبدأ</small></b></div>
-    ${kidsWindowHTML()}`;
+    <div class="page-head"><button class="back-btn" data-go="#/">رجوع</button><div class="ph-ic">${KI.kStar}</div><b>ركن الأطفال<small>اختر قسماً ثم اضغط على أي ذكر</small></b></div>
+    ${Object.keys(KIDS).map(g => kidGroupHTML(g)).join('')}`;
 }
+function kidGroupHTML(g) {
+  const k = KIDS[g], items = gItems(g);
+  const done = items.filter((it, i) => kidRem(g, i, it) === 0).length;
+  const open = kidsOpen === g;
+  const rows = items.map((it, i) => {
+    const rem = kidRem(g, i, it);
+    return `<div class="kid-row">
+      <button class="drop-item${rem === 0 ? ' done' : ''}" data-go="#/kids/${g}/${i}" style="flex:1;min-width:0">
+        <span class="di-ic">${kidIcon(it)}</span><span class="dn">${it.t}</span><i>${rem === 0 ? 'تم ✓' : 'المتبقي ' + rem}</i></button>
+      ${isExtra(g, i) ? `<button class="kid-del" data-act="kidDel" data-g="${g}" data-i="${i}" title="حذف هذا الذكر" aria-label="حذف">✕</button>` : ''}
+    </div>`;
+  }).join('');
+  return `<div class="kid-group${open ? ' open' : ''}">
+    <button class="kid-ghead" data-act="kidToggle" data-g="${g}" aria-expanded="${open}">
+      <div class="kg-art">${KI[k.ic] || ''}</div>
+      <div class="kg-tx"><b>${k.n}</b><small>${k.sub} — ${done} من ${items.length}</small></div>
+      <div class="kg-go">⌄</div>
+    </button>
+    <div class="kid-drop">
+      ${rows || '<div class="empty">لا يوجد شيء بعد — أضف ذكراً بالأسفل</div>'}
+      <div class="kid-add-row"><button class="btn" data-act="kidAddOpen" data-g="${g}">+ إضافة ${g === 'adab' ? 'أدب' : 'ذكر'}</button></div>
+      <div id="kidForm_${g}"></div>
+    </div>
+  </div>`;
+}
+/* يفتح القسم في الصفحة نفسها (يحلّ محل المسار القديم #/kids/<قسم>) */
 function viewKidsList(group) {
-  const k = KIDS[group];
-  if (!k) return go('#/kids');
-  const v = document.getElementById('view');
-  v.innerHTML = `
-    <div class="page-head"><button class="back-btn" data-go="#/kids">رجوع</button><div class="ph-ic">${KI[k.ic] || ''}</div><b>${k.n}<small>${k.sub}</small></b><button class="back-btn no-print" data-act="print" title="طباعة أو حفظ كملف PDF" aria-label="طباعة أو حفظ PDF">PDF</button></div>
-    <div class="kid-hero"><div class="kh-art">${KI[k.ic] || ''}</div><div><b>${k.n}</b><small>اضغط على أي ذكر لتتعلمه وتسبّح به</small></div></div>
-    <div class="list-drop">${k.items.map((it, i) => {
-      const rem = kidRem(group, i, it);
-      return `<button class="drop-item${rem === 0 ? ' done' : ''}" data-go="#/kids/${group}/${i}">
-        <span class="di-ic">${KI[it.ic] || ''}</span><span class="dn">${it.t}</span><i>${rem === 0 ? 'تم ✓' : 'المتبقي ' + rem}</i></button>`;
-    }).join('')}</div>`;
+  if (!KIDS[group]) return go('#/kids');
+  kidsOpen = group;
+  viewKids();
+}
+/* إضافة ذكر أو أدب جديد من المستخدم */
+function openKidForm(g) {
+  const box = document.getElementById('kidForm_' + g);
+  if (!box) return;
+  if (box.innerHTML) { box.innerHTML = ''; return; }
+  box.innerHTML = `<div class="kid-form">
+    <label for="kf_t_${g}">عنوان الذكر</label>
+    <input id="kf_t_${g}" type="text" placeholder="${g === 'adab' ? 'مثال: إدخال المنزل' : 'مثال: ذكر بعد الصلاة'}" maxlength="60">
+    <label for="kf_x_${g}">نص الذكر</label>
+    <textarea id="kf_x_${g}" placeholder="اكتب نص الذكر أو الأدب هنا"></textarea>
+    <label for="kf_s_${g}">المصدر (اختياري)</label>
+    <input id="kf_s_${g}" type="text" placeholder="مثال: رواه الترمذي" maxlength="80">
+    <div class="kf-btns">
+      <button class="btn" data-act="kidAdd" data-g="${g}" style="border-color:var(--acc);color:var(--acc)">حفظ</button>
+      <button class="btn" data-act="kidAddOpen" data-g="${g}">إلغاء</button>
+    </div></div>`;
+  const t = document.getElementById('kf_t_' + g);
+  if (t) t.focus();
+}
+function kidAdd(g) {
+  const t = document.getElementById('kf_t_' + g),
+    x = document.getElementById('kf_x_' + g),
+    s = document.getElementById('kf_s_' + g);
+  const title = (t && t.value || '').trim(), text = (x && x.value || '').trim(), src = (s && s.value || '').trim();
+  if (!title || !text) { alert('من فضلك اكتب عنوان الذكر ونصه.'); return; }
+  if (!Array.isArray(KIDS_EXTRA[g])) KIDS_EXTRA[g] = [];
+  KIDS_EXTRA[g].push({
+    t: title, text: text, source: src, count: 1, ic: g === 'adab' ? 'kHeart' : 'kStar',
+    key: 'u' + Date.now().toString(36), custom: true
+  });
+  saveKidsExtra();
+  kidsOpen = g;
+  viewKids();
+}
+function kidDel(g, i) {
+  const arr = KIDS_EXTRA[g];
+  const off = i - KIDS[g].items.length;
+  if (!Array.isArray(arr) || off < 0 || off >= arr.length) return;
+  const it = arr[off];
+  if (!confirm('حذف «' + it.t + '» نهائياً؟')) return;
+  delete kidsRem[kidKey(g, i, it)];
+  arr.splice(off, 1);
+  saveKidsExtra();
+  kidsOpen = g;
+  viewKids();
 }
 function viewKidsItem(group, i) {
-  const k = KIDS[group], it = k && k.items[i];
+  const k = KIDS[group], it = k && gItems(group)[i];
   if (!it) return go('#/kids');
   const rem = kidRem(group, i, it);
   const v = document.getElementById('view');
   v.className = 'kid-page';
   v.innerHTML = `
-    <div class="page-head"><button class="back-btn" data-go="#/kids/${group}">رجوع</button><div class="ph-ic">${KI[it.ic] || ''}</div><b>${it.t}<small>${k.n} — ركن الأطفال</small></b></div>
+    <div class="page-head"><button class="back-btn" data-go="#/kids">رجوع</button><div class="ph-ic">${kidIcon(it)}</div><b>${it.t}<small>${k.n} — ركن الأطفال</small></b></div>
     <div class="reward" id="rewardBox"></div>
     <div id="kidCards"></div>`;
   const list = document.getElementById('kidCards');
-  list.appendChild(mkCard(cardHTML(it, rem, 1, { noFav: true, art: `<div style="width:110px;height:110px;margin:auto">${KI[it.ic] || ''}</div>` }), rem, () => kidTap(group, i)));
+  list.appendChild(mkCard(cardHTML(it, rem, 1, { noFav: true, art: `<div style="width:110px;height:110px;margin:auto">${kidIcon(it)}</div>` }), rem, () => kidTap(group, i)));
   renderReward(group);
 }
 function renderReward(group) {
   const box = document.getElementById('rewardBox');
   if (!box) return;
-  const k = KIDS[group], total = k.items.length, done = k.items.filter((it, i) => kidRem(group, i, it) === 0).length;
+  const items = gItems(group), total = items.length,
+    done = items.filter((it, i) => kidRem(group, i, it) === 0).length;
   const stars = Array.from({ length: total }).map((_, j) => `<span class="rw-star ${j < done ? 'on' : ''}"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" d="M12 2.6l2.9 5.9 6.5.95-4.7 4.6 1.1 6.45L12 17.45 6.2 20.5l1.1-6.45-4.7-4.6 6.5-.95z"/></svg></span>`).join('');
   box.innerHTML = `<b>لوحة المكافآت</b><div class="rw-stars">${stars}</div>
     <div class="rw-msg">${done === total ? '🎉 أتممت كل الأذكار — أحسنت!' : `جمعت ${done} من ${total} نجمة`}</div>`;
 }
 function kidTap(group, i) {
-  const it = KIDS[group].items[i], k = kidKey(group, i);
+  const it = gItems(group)[i], k = kidKey(group, i, it);
   const cur = kidRem(group, i, it);
   if (cur > 0) {
     kidsRem[k] = cur - 1; playTick();
@@ -1131,10 +1225,11 @@ function kidTap(group, i) {
   save(); viewKidsItem(group, i);
 }
 function checkKidsGroupDone(group) {
-  const k = KIDS[group], all = k.items.every((it, i) => kidRem(group, i, it) === 0);
+  const items = gItems(group), all = items.every((it, i) => kidRem(group, i, it) === 0);
   if (!all) return;
-  const total = Object.keys(KIDS).reduce((a, g) => a + KIDS[g].items.length, 0);
-  const done = Object.keys(KIDS).reduce((a, g) => a + KIDS[g].items.filter((it, i) => kidRem(g, i, it) === 0).length, 0);
+  let total = 0;
+  Object.keys(KIDS).forEach(g => { total += gItems(g).length; });
+  const done = total;
   party(done === total ? 'ركن الأطفال كاملاً!' : 'أحسنت! ' + k.n, done === total ? 'ما شاء الله! أتممت كل أذكار ركن الأطفال. بارك الله فيك.' : `ما شاء الله! أتممت ${k.n} كلها.`, k.ic);
 }
 function party(title, msg, ic) {
@@ -1248,14 +1343,13 @@ function viewSearch(q) {
 }
 /* صفحة الأدعية المصوّرة من الملف (50 صفحة) */
 const DUAS_PAGES = 50;
-let duaPage = 1;
 function viewDuas() {
   const v = document.getElementById('view');
   v.className = '';
   v.innerHTML = `
-    <div class="page-head"><button class="back-btn" data-go="#/">رجوع</button><div class="ph-ic">${I.book}</div><b>أدعية مختارة<small>من جوامع الدعاء النبوي ﷺ</small></b></div>
-    ${DUAS_PAGES ? `<div class="pdf-nav no-print"><button class="btn" data-act="duaPrev">› السابق</button><b id="duaLbl">صفحة ${duaPage} من ${DUAS_PAGES}</b><button class="btn" data-act="duaNext">التالي ‹</button><button class="btn" data-act="duaPrint" style="border-color:var(--acc);color:var(--acc)">طباعة / حفظ PDF</button></div>
-    <div class="pdf-page"><img id="duaImg" src="duas/p${duaPage}.jpg" alt="صفحة الأدعية ${duaPage}" loading="lazy"></div>` : `<div class="empty">جاري تجهيز صور الأدعية…</div>`}`;
+    <div class="page-head"><button class="back-btn" data-go="#/">رجوع</button><div class="ph-ic">${I.book}</div><b>أدعية مختارة<small>من جوامع الدعاء النبوي ﷺ — ${DUAS_PAGES} صفحة</small></b></div>
+    ${DUAS_PAGES ? `<div class="pdf-nav no-print"><button class="btn" data-act="duaPrint" style="border-color:var(--acc);color:var(--acc)">طباعة / حفظ PDF كامل (${DUAS_PAGES} صفحة)</button></div>
+    <div class="duas-book">${Array.from({ length: DUAS_PAGES }, (_, n) => n + 1).map(p => `<div class="pdf-page"><img src="duas/p${p}.jpg" alt="صفحة الأدعية ${p}" loading="lazy"></div>`).join('')}</div>` : `<div class="empty">جاري تجهيز صور الأدعية…</div>`}`;
 }
 /* فتح قفل تمرير الصفحة إن لم تكن أي نافذة منبثقة مفتوحة — يمنع بقاء الشاشة ثابتة */
 function unlockScroll() {
@@ -1398,10 +1492,12 @@ document.addEventListener('click', (e) => {
     else if (a === 'cal') openCal();
     else if (a === 'resetView') { if (confirm('تصفير عدادات الورد المعروض حالياً؟')) resetCurrentView(); }
     else if (a === 'resetAll') { if (confirm('تصفير كل العدادات؟')) { remaining = {}; kidsRem = {}; ensureKeys(); render(); } }
-    else if (a === 'duaPrev') { duaPage = Math.max(1, duaPage - 1); viewDuas(); }
-    else if (a === 'duaNext') { duaPage = Math.min(DUAS_PAGES || 1, duaPage + 1); viewDuas(); }
     else if (a === 'duaPrint') printDua();
     else if (a === 'print') window.print();
+    else if (a === 'kidToggle') { kidsOpen = kidsOpen === act.dataset.g ? '' : act.dataset.g; viewKids(); }
+    else if (a === 'kidAddOpen') openKidForm(act.dataset.g);
+    else if (a === 'kidAdd') kidAdd(act.dataset.g);
+    else if (a === 'kidDel') kidDel(act.dataset.g, +act.dataset.i);
     return;
   }
   const f = e.target.closest('[data-fav]');
@@ -1427,9 +1523,13 @@ document.addEventListener('click', (e) => {
   if (st) { sabahSub = st.dataset.sub; render(); return; }
 });
 function printDua() {
-  const img = document.getElementById('duaImg');
-  if (img && !img.complete) { img.onload = () => setTimeout(() => window.print(), 150); }
-  else setTimeout(() => window.print(), 100);
+  /* ننتظر تحميل كل صور الأدعية الخمسين حتى يخرج الملف كاملاً */
+  const imgs = [].slice.call(document.querySelectorAll('.duas-book img'));
+  if (!imgs.length) { setTimeout(() => window.print(), 100); return; }
+  let left = imgs.filter(i => !i.complete).length;
+  if (!left) { setTimeout(() => window.print(), 150); return; }
+  const done = () => { if (--left <= 0) setTimeout(() => window.print(), 250); };
+  imgs.forEach(i => { if (!i.complete) { i.onload = done; i.onerror = done; } });
 }
 function cycleFont() {
   const k = FONTS.findIndex(f => f.id === fontId);
@@ -1581,7 +1681,15 @@ function closeAllOverlays() {
   else if (h === 'evening') sabahSub = 'evening';
   if (map[h]) { history.replaceState(null, '', map[h]); if (h === 'morning' || h === 'evening') { /* يُنفَّذ بعد التحميل */ } }
 })();
-addEventListener('hashchange', () => { closeAllOverlays(); window.scrollTo(0, 0); render(); });
+/* حفظ موضع التمرير لكل صفحة والرجوع إليه — حتى لا يقفز المستخدم إلى أعلى الصفحة عند التنقل */
+const scrollMem = {};
+const rkey = r => [r.name, r.cat || '', r.group || '', r.i !== undefined ? r.i : '', r.idx !== undefined ? r.idx : '', r.q || ''].join('|');
+addEventListener('hashchange', () => {
+  scrollMem[rkey(route)] = window.scrollY;   // نحفظ موضع الصفحة التي نغادرها
+  closeAllOverlays();
+  render();
+  window.scrollTo({ top: scrollMem[rkey(route)] || 0, left: 0, behavior: 'instant' });  // ونسترجع موضع الصفحة الجديدة
+});
 load(); tickClock(); setInterval(tickClock, 1000); updateTimeHint(); renderPrayerBar(); syncFontRow(); syncThemeRow(); render(); fetchPrayer();
 setInterval(() => { if (themeAuto) applyAutoTheme(); maybeNewDay(); updateTimeHint(); }, 60000);
 </script>
